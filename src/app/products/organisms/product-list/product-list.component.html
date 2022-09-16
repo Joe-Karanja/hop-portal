@@ -1,0 +1,14 @@
+<div class=""> 
+    <div *ngIf="loading">
+        <div class="spinner">
+            <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+        </div>
+    </div>
+    <div *ngIf="!loading" style="margin-top: 15px;">
+        <div  class="pa-2">
+            <nz-divider [nzText]="categoryName"></nz-divider>
+            
+            <app-product-card  *ngFor="let product of products" [product]="product"></app-product-card>
+        </div>
+    </div>
+</div>

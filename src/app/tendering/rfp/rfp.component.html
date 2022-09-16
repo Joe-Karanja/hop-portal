@@ -1,0 +1,62 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="RFPs" [nzExtra]="extraTemplate" nzSize="large">
+        <nz-table #basicTable [nzData]="data" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead style="font-weight: bold;">
+            <tr>
+              <th>#</th>
+              <th>Ref Number</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Replies</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data" >
+              <td>{{data.id}}</td>
+              <td>{{data.rfiCode}}</td>
+              <td>{{data.title | titlecase}}</td>
+              <td>{{data.category}}</td>
+              <td>{{data.subCategory | titlecase}}</td>
+              <td>{{data.noOfSuppliers}}</td>
+              <td>{{data.createdOn}}</td>
+              <td>{{data.dueDate}}</td>
+              <td>
+                  <button nz-button nzSize="small" nzType="primary" nzGhost
+                  [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon>&nbsp;
+                  Actions
+                  </button>
+                  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                      
+                      <button mat-menu-item (click)="viewRfi(data)">
+                          <mat-icon>remove_red_eye</mat-icon>View
+                      </button>
+                      <button *ngIf="data.suppliers == 0" mat-menu-item (click)="editRfi(data)">
+                        <mat-icon>edit</mat-icon>Edit
+                    </button>
+                  </mat-menu>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+      <ng-template #extraTemplate>
+        <button nz-button nzType="primary" (click)="toAddRFI('')">New RFP</button>&nbsp;
+        <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+            <button mat-menu-item (click)="exportWorkflowXLSX()">
+                <mat-icon>file_copy</mat-icon>
+                XLSX
+            </button>
+            <button mat-menu-item (click)="exportWorkflowPDF()">
+                <mat-icon>picture_as_pdf</mat-icon>
+                PDF
+            </button>
+        </mat-menu>
+      </ng-template>
+    </div>
+</div>

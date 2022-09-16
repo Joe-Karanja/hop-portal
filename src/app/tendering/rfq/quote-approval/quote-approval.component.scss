@@ -1,0 +1,49 @@
+.company {
+    margin: 10px;
+}
+
+.items {
+    margin: 20px;
+}
+button {
+    display: block;
+    width: 100%;
+    border: none;
+    color: white;
+    margin: 10px;
+}
+
+.accept {
+    
+    background-color: #04AA6D;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+
+}
+
+.cancel{
+    background-color: #ee7d79;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+span {
+    font-size: 18px;
+    color: grey;
+    font-weight: 500;
+}
+.item {
+    margin-top: 3px;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(61, 61, 61);
+}
+
+nz-divider{
+    color: rgb(189, 189, 189);
+}
+

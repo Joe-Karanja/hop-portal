@@ -1,0 +1,79 @@
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+  .search-box {
+    padding: 8px;
+  }
+
+  .search-box input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .search-box button {
+    width: 90px;
+  }
+
+  .search-button {
+    margin-right: 8px;
+  }
+:host {
+    overflow: hidden;
+    padding: 24px;
+    display: block;
+  }
+
+  .card-container ::ng-deep p {
+    margin: 0;
+  }
+  .card-container ::ng-deep > .ant-tabs-card .ant-tabs-content {
+    min-height: 200px;
+    margin-top: -16px;
+  }
+  .card-container ::ng-deep > .ant-tabs-card > .ant-tabs-nav::before {
+    display: none;
+  }
+  .card-container ::ng-deep > .ant-tabs-card .ant-tabs-tab-active {
+    border-color: #fff;
+    background: #fff;
+  }
+
+  .steps-content {
+    margin-top: 16px;
+    border: 1px dashed #e4e4e4;
+    border-radius: 6px;
+    background-color: #fafafa;
+    min-height: 200px;
+    padding-top: 10px; 
+  }
+
+  .header {
+      max-width: 400px;
+      justify-content: center;
+      margin: 10px;
+  }
+
+  .steps-action {
+    margin: 24px;
+    
+  }
+
+  button {
+    margin-right: 8px;
+  }
+
+  span {
+    font-size: 14px;
+    color: grey;
+}
+.item {
+    margin-top: 15px;
+    font-size: 16px;
+
+}

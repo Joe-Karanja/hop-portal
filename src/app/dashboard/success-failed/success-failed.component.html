@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-subtitle fxLayout="row" fxLayoutAlign="start center">
+        <div *ngIf="!toggleCount; else valueTitle">
+            <mat-icon>assessment</mat-icon>Transactions Value Trend by Success Status&nbsp;
+        </div>
+        <ng-template #valueTitle>
+            <mat-icon>assessment</mat-icon>Transactions Count Trend by Success Status&nbsp;
+        </ng-template>
+        <span fxFlex></span>
+        <mat-slide-toggle color="warn" [(ngModel)]="graphC" name="graphC" (ngModelChange)="toggleBarType($event)">{{toggleTitle}}</mat-slide-toggle>&nbsp;&nbsp;
+        <button nz-button nzType="primary" nzGhost [matMenuTriggerFor]="menu">
+            View Count/Value&nbsp;<mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+            <div *ngIf="!toggleCount; else viewValueOption">
+                <button mat-menu-item (click)="toggleCountValue()">
+                    <mat-icon>remove_red_eye</mat-icon>
+                    View Transactions Count
+                   
+                </button>
+            </div>
+            <ng-template #viewValueOption>
+                <button mat-menu-item (click)="toggleCountValue()">
+                    <mat-icon>remove_red_eye</mat-icon>
+                    View Transactions Value
+                </button>
+            </ng-template>
+        </mat-menu>
+        </mat-card-subtitle>
+        <mat-card-content>
+            <div>
+            <canvas id="valueCanvas" height="200" baseChart class="chart"></canvas>
+            </div>
+        </mat-card-content>
+</mat-card>

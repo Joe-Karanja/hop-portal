@@ -1,0 +1,260 @@
+<div class="atma-background">
+  <div class="session-content">
+    <div class="session-wrapper">
+      <mat-card>
+        <div class="text-xs-center pb-1">
+          <img src="assets/images/logo.png" alt="" height="60px" width="100px" />
+          <p class="mat-text-muted">HOP Company Onboarding</p>
+        </div>
+        <mat-horizontal-stepper #stepper>
+          <mat-step [stepControl]="firstFormGroup" > 
+            <form [formGroup]="firstFormGroup" >
+              <ng-template matStepLabel ></ng-template>
+              <mat-grid-list cols="2" rowHeight="4:1">
+                <h2>Company Details</h2>
+                <mat-grid-tile>
+                  <mat-form-field >
+                    <mat-label>Select Business Sector</mat-label>
+                    <mat-select required formControlName="businessType" >
+                      <mat-option *ngFor="let type of businessTypes" [value]="type.name" [loading]="categoriesLoading">
+                        {{type.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field >
+                    <mat-label>Select Business Subsector</mat-label>
+                    <mat-select required formControlName="businessSubsector">
+                      <mat-option *ngFor="let type of businessSubTypes" [value]="type.name">
+                        {{type.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>company Name</mat-label>
+                    <input type="text" matInput placeholder="Company Name" formControlName="businessName" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Company Location</mat-label>
+                    <input type="text" matInput placeholder="Company Location" formControlName="location" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Company Email</mat-label>
+                    <input type="email" matInput placeholder="Company Location" formControlName="businessEmail" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Company Phone Number</mat-label>
+                    <input type="number" matInput placeholder="Company Number" formControlName="businessPhoneNumber" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <span>Are you a buyer or a supplier? </span>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-checkbox formControlName="isBuyer" (change)="onBuyerChange($event)">Buyer</mat-checkbox>
+                  <mat-checkbox formControlName="isSupplier" (change)="onSupplierChange($event)">Supplier</mat-checkbox>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div>
+                <button nzShape="round" nzSize="large"
+                nz-button nzType="primary" [disabled]="!firstFormGroup.valid" matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" >
+            <h2>Contact Person Details</h2>
+            <form [formGroup]="secondFormGroup">
+              <mat-grid-list cols="1" rowHeight="8:1">
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>FirstName</mat-label>
+                    <input type="text" matInput formControlName="userFirstName" placeholder="FirstName"
+                           required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>LastName</mat-label>
+                    <input type="text" matInput formControlName="userLastName" placeholder="LastName"
+                           required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Personal Email</mat-label>
+                    <input type="email" matInput formControlName="userEmail" placeholder="Email"
+                           required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Personal Number</mat-label>
+                    <input type="tel" matInput formControlName="userPhoneNumber" placeholder="Phone Number"
+                           required>
+                  </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button nzShape="round" nzSize="large"
+                nz-button nzType="primary" [disabled]="!secondFormGroup.valid"  matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="thirdFormGroup" >
+            <h2>Business Capabilities</h2>
+            <form [formGroup]="thirdFormGroup">
+              <mat-grid-list cols="1" rowHeight="8:1">
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Briefy describe your business</mat-label>
+                    <textarea matInput formControlName="businessDetails" placeholder="Business Bio" required></textarea>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Number of Employees</mat-label>
+                    <input type="number" matInput formControlName="businessCapacity" placeholder="Capacity" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>Years of experience</mat-label>
+                    <input type="number" height="200px" matInput formControlName="yearsOfExperience" placeholder="Years Of experience" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field>
+                    <mat-label>KRA Pin</mat-label>
+                    <input height="200px" matInput formControlName="kraPin" placeholder="KRA PIN" required>
+                  </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button nzShape="round" nzSize="large"
+                nz-button nzType="primary" [disabled]="!thirdFormGroup.valid" matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="forthFormGroup" >
+            <h2>Legal Documents</h2>
+            <form [formGroup]="forthFormGroup">
+              <mat-grid-list cols="1" rowHeight="8:1">
+                <mat-grid-tile>
+                  <div class="file-input">
+                    <input type="file" (change)="handleKraFile($event)"  id="file" class="file" accept="application/pdf">
+                    <label for="file" >{{kraName}}</label>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="file-input">
+                    <input type="file" (change)="handleRegFile($event)"  id="file1" class="file1" accept="application/pdf">
+                    <label for="file1" >{{regName}}</label>
+                  </div>
+                  
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="file-input">
+                    <input type="file" (change)="handleVatFile($event)"  id="file2" class="file2" accept="application/pdf">
+                    <label for="file2" >{{vatName}}</label>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button nzShape="round" nzSize="large"
+                nz-button nzType="primary" [disabled]="!forthFormGroup.valid" matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+          <!-- [disabled]="!forthFormGroup.valid" -->
+
+          <mat-step [stepControl]="fifthFormGroup">
+            <!-- <ng-template matStepLabel></ng-template> -->
+            <div class="summary">
+              <h2>Summary</h2>
+              <p>You are now done! Review the your details and register</p>
+            </div>
+            <mat-grid-list cols="2" rowHeight="2:1">
+              <div class="col-12">
+                <div class="card-header border-0 pt-5">
+                  <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">User Details</span>
+                  </h3> 
+                </div>
+                <span class="text-muted">Full Name :</span>
+                {{secondFormGroup.controls['userFirstName'].value}} {{secondFormGroup.controls['userLastName'].value}} <br>
+          
+                <span class="text-muted">Contact Email :</span>
+                 {{secondFormGroup.controls['userEmail'].value}}<br>
+          
+                <span class="text-muted">Phone Number :</span>
+                {{secondFormGroup.controls['userPhoneNumber'].value}}
+              </div>
+          
+              <div class="col-12" style="margin-top: 10px;">
+                <div class="card-header border-0 pt-5">
+                  <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Business Details</span>
+                  </h3> 
+                </div>
+                <span class="text-muted"> Business Name: </span>
+                {{firstFormGroup.controls['businessName'].value}}<br>
+          
+                <span class="text-muted">Business Type :</span>
+                {{firstFormGroup.controls['businessType'].value}}<br>
+          
+                <span class="text-muted">Business Sub-Sector :</span>
+                {{firstFormGroup.controls['businessSubsector'].value}}
+          
+                <span class="text-muted">Experience: </span>
+                {{thirdFormGroup.controls['yearsOfExperience'].value}}
+
+                <span class="text-muted">Capacity: </span>
+                {{thirdFormGroup.controls['businessCapacity'].value}}<br>
+          
+                <span class="text-muted">Location: </span>
+                {{firstFormGroup.controls['location'].value}}
+              </div>
+            </mat-grid-list>
+            <span class="summary">We will send a confirmation email to the company email ({{firstFormGroup.controls['businessEmail'].value}})</span>
+            <div style="margin-top: 20px;">
+              <button mat-button matStepperPrevious>Back</button>
+              <button type="submit"
+              [disabled]="loading" nzShape="round" nzSize="large"
+               nz-button nzType="primary" (click)="onboardUser()" [nzLoading]="loading">
+               Register
+              </button>
+            </div>
+          </mat-step>
+
+          <ng-template matStepperIcon="business">
+            <mat-icon>business</mat-icon>
+          </ng-template>
+          <ng-template matStepperIcon="person">
+            <mat-icon>person</mat-icon>
+          </ng-template>
+          <ng-template matStepperIcon="tag">
+            <mat-icon>tag</mat-icon>
+          </ng-template>
+          <ng-template matStepperIcon="files">
+            <mat-icon>attachment</mat-icon>
+          </ng-template>
+        </mat-horizontal-stepper>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,88 @@
+<div class="container-back">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex.gt-sm="95.00%" fxFlex.gt-xs="100%" fxFlex="100%">
+            <nz-card [nzBordered]="false" nzTitle="{{cardTitle | uppercase}}" [nzExtra]="extraTemplate" nzSize="large">
+                <nz-input-group style="margin-bottom: 10px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+                    <input type="text" (ngModelChange)="search()" nz-input placeholder="Search Users" [(ngModel)]="searchValue"/>
+                  </nz-input-group>
+                  <ng-template #suffixIconSearch>
+                    <mat-icon x-small (click)="loadBusinesses()" *ngIf="searchValue">clear</mat-icon>
+                    <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+                  </ng-template>
+                <nz-table #basicTable nzSize="small" [nzData]="_data"  [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="perPage" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+                    <thead>
+                      <tr>
+                        <th class="crop-square"><mat-icon>crop_square</mat-icon></th>
+                        <th class="thead-bold">Full Name</th>
+                        <th class="thead-bold">Email</th>
+                        <th class="thead-bold">Phone Number</th>
+                        <th class="thead-bold">Status</th>
+                        <th class="thead-bold">Blocked</th>
+                        <th class="thead-bold">Pending Action</th>
+                        <th class="thead-bold">Created On</th>
+                        <th class="thead-bold" *ngIf="isHop">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody nzSize="small">
+                      <tr *ngFor="let data of basicTable.data">
+                        <td class="crop-square"><mat-icon>crop_square</mat-icon></td>
+                        <td>{{data.firstName | titlecase}}&nbsp;{{data.lastName | titlecase}}</td>
+                        <td>{{data.email | lowercase}}</td>
+                        <td><code>{{data.phoneNumber}}</code></td>
+                        <td><app-blocked-label [labelValue]="data.firstTimeLogin"></app-blocked-label></td>
+                        <td><app-blocked-status [labelValue]="data.isBlocked"></app-blocked-status></td>
+                        <td><app-edit-notification-label [labelValue]="data.beingEdited"></app-edit-notification-label></td>
+                        <td><code class="atma-failed">{{data.createdOn}}</code></td>
+                        <td *ngIf="isHop"> 
+                            <button nz-button nzSize="small"  
+                            [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                            Actions
+                            </button>
+                            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                                <button mat-menu-item (click)="viewUser(data)" title="View User Details" aria-describedby="View User Details">
+                                    <mat-icon>remove_red_eye</mat-icon>View
+                                </button>
+                                <button *ngIf="!data.beingEdited; else pendingEdit  " mat-menu-item (click)="editUser(data)" title="Edit User" aria-describedby="Edit User">
+                                    <mat-icon>edit</mat-icon>Edit
+                                </button>
+                                <ng-template #pendingEdit>
+                                    <button mat-menu-item (click)="editUser(data)" title="Edit User" aria-describedby="Edit User" disabled>
+                                        <mat-icon>edit</mat-icon>Edit
+                                    </button>
+                                </ng-template>
+                                <button *ngIf="!data.beingEdited; else assignPend" mat-menu-item title="Assign User to Profile" aria-describedby="Assign User to Profile" (click)="assignProfile(data)">
+                                    <mat-icon>assignment_ind</mat-icon>
+                                    Assign
+                                </button>
+                                <ng-template #assignPend>
+                                    <button mat-menu-item title="Assign User to Profile" aria-describedby="Assign User to Profile" (click)="assignProfile(data)" disabled>
+                                        <mat-icon>assignment_ind</mat-icon>
+                                        Assign
+                                    </button>
+                                </ng-template>
+                            </mat-menu>
+                        </td>
+                      </tr>
+                    </tbody>
+                </nz-table>
+            </nz-card>
+            <ng-template #extraTemplate>
+                <span>Total Number of Users: {{total}}</span>&nbsp;&nbsp;&nbsp;
+                <!-- <button nz-button nzType="primary" (click)="triggerModal('')"><mat-icon>face</mat-icon>&nbsp;Add User</button>&nbsp; -->
+                <button class="mr-1" nz-button nzType="primary" [matMenuTriggerFor]="menu" ><mat-icon> face</mat-icon>&nbsp;Add User</button>&nbsp;
+                <button class="mr-1" nz-button nzType="primary" [matMenuTriggerFor]="menu" ><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+                <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item (click)="exportXLSX()" title="Export users to XLSX" aria-describedby="Export users to XLSX"><mat-icon>file_copy</mat-icon>XLSX</button>
+                    <button mat-menu-item (click)=exportUsersPDF() title="Export users to pdf" aria-describedby="Export users to pdf">
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        PDF
+                    </button>
+                </mat-menu>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+
+
+

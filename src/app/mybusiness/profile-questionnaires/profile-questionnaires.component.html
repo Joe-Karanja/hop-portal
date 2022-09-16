@@ -1,0 +1,90 @@
+
+<div fxLayout="row" fxLayoutAlign="center center" class="mx-3" >
+    <div fxFlex.gt-sm="80%" fxFlex="100" id="target" >
+        <nz-card nzSize="large" nzTitle="Questionnaires" [nzExtra]="temp"  style="width:100%;" >
+            <nz-collapse nzAccordion [nzExpandIconPosition]="'right'">
+                <nz-collapse-panel
+                  *ngFor="let panel of questions"
+                  [nzHeader]="panel.question"
+                  [nzDisabled]="panel.disabled"
+                  (nzActiveChange)="getActiveQuestion(panel.id)"
+                  class=""
+                >
+                <div nz-row>
+                  <div nz-col nzSpan="16">
+                    <p style="margin:0;" class="pa-1">
+                      {{ panel.answers}}
+                    </p>
+                    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(panel)">
+                      <div class="one" *ngIf="panel.questionType == 'MULTIPLE_ANSWERS' || panel.questionType == 'ONE_ANSWER'">
+                        <nz-form-item *ngFor="let control of listOfControl; let i = index" >
+                          <nz-form-label [nzXs]="24" [nzSm]="4" *ngIf="i === 0" [nzFor]="control.controlInstance">
+                            Answers
+                          </nz-form-label> 
+                          <nz-form-control
+                            [nzXs]="24"
+                            [nzSm]="20"
+                            [nzOffset]="i === 0 ? 0 : 4"
+                            nzErrorTip="Please input an answer or delete this field."
+                          >
+                            <input
+                              class="passenger-input"
+                              nz-input
+                              placeholder="Answer"
+                              [attr.id]="control.id"
+                              [formControlName]="control.controlInstance"
+                            />
+                            
+                            <mat-icon  *ngIf="i != 0" (click)="removeField(control, $event)" class="remove-icon">cancel</mat-icon>
+                            
+                          </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                            <button *ngIf="panel.questionType == 'MULTIPLE_ANSWERS'"  nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+                              <i nz-icon nzType="plus"></i>
+                              Add field
+                            </button>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+                      <nz-form-item *ngIf="panel.questionType == 'BOOLEAN'"> 
+                        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                          <div>
+                            <input type="radio" id="true" name="true" value="true"checked>
+                            <label for="huey">True</label>
+                          </div>
+                          <div>
+                            <input type="radio" id="false" name="false" value="false">
+                            <label for="dewey">False</label>
+                          </div>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </form>
+                  </div>
+                  <div nz-col nzSpan="8">
+                    <nz-form-item *ngIf="panel.includeAttachment == true">
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required" class="file-input ma-1">
+                        <input type="file" (change)="handleFileInput($event)"  id="file" class="file" accept="application/pdf">
+                        <label for="file" >{{fileName}}</label>
+                      </nz-form-control>
+                  </nz-form-item>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center"  class="">
+                  <button nz-button [nzLoading]="loading" [disabled]="loading" nzType="primary" (click)="submitForm(panel)">Submit</button>
+                </div> 
+                
+                  
+                  <!-- <button *ngIf="panel.answers == null" class="mr-1" nz-button nzType="primary" nzShape="round">Add</button> -->
+                  <!-- <button *ngIf="panel.answers != null" nz-button nzType="primary" nzShape="round"> Edit</button> -->
+                </nz-collapse-panel>
+              </nz-collapse>
+        </nz-card>
+        <ng-template #temp>
+          <!-- <button nz-button nzType="primary" (click)="createProfile('')"><mat-icon>assignment_ind</mat-icon>&nbsp;Add Profile</button>&nbsp; -->
+          <!-- <button *ngIf="business.isApproved" nz-button nzType="primary" nzDanger nzSize="large"><mat-icon>down</mat-icon>&nbsp;Deactivate Business</button> -->
+          <!-- <button *ngIf="!business.isApproved" nz-button nzType="primary" nzSize="large"><mat-icon>down</mat-icon>&nbsp;Approve Business</button> -->
+        </ng-template>
+    </div>
+</div>

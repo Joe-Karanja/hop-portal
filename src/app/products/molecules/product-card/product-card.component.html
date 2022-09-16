@@ -1,0 +1,12 @@
+<nz-card class="pa-1" [routerLink]="'/products/single-product/' + product" 
+      nz-card-grid [ngStyle]="gridStyle"  style="width:200px; margin: 2px; margin-top: 15px; margin-bottom: 105px;" [nzCover]="coverTemplate"  >
+        <nz-card-meta
+          [nzTitle]=" product.productName "
+          [nzDescription]="'Ksh '+ product.productPrice"
+        ></nz-card-meta> 
+        <nz-tag *ngFor="let tag of product.tags" [nzColor]="'gold'" class="mt-1">{{tag}}</nz-tag>
+        <ng-template #coverTemplate>
+          <img height="200px" width="200px" *ngIf="product.imageList.length > 0" alt="example" [src]="transform(product.imageList[0])" />
+          <img height="200px" width="200px" *ngIf="product.imageList.length == 0" alt="example" [src]="'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'" />
+      </ng-template>
+</nz-card>

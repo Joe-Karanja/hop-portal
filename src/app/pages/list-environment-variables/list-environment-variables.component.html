@@ -1,0 +1,106 @@
+<div>
+  <nz-card [nzBordered]="false" nzTitle="Environment Variables (KEY - VALUE PARAMS)" [nzExtra]="extraTemplate">
+    <nz-table #smallTable nzSize="small" nzShowSizeChanger [nzData]="data" [nzFrontPagination]="false"
+      [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="key" [nzSortFn]="true">Key</th>
+          <th nzColumnKey="value" [nzFilterFn]="true">Value</th>
+          <th nzColumnKey="env" [nzFilters]="filterEnv" [nzFilterFn]="true">Environment</th>
+          <th nzColumnKey="createdOn" [nzSortFn]="true">Date Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of data">
+          <td>{{ rec.key }}</td>
+          <td>{{ rec.value }}</td>
+          <td>{{ rec.env }}</td>
+          <td>{{ rec.createdOn }}</td>
+          <td>
+            <button nz-button nzType="primary" nzShape="circle" title="Edit"
+              (click)="addEditRecord(tplTitleEdit, tplContent, tplFooter , rec)">E</button>
+            <button nz-button nzType="danger" nzShape="circle" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+              (nzOnConfirm)="deleteRow(data.id)" title="Delete">D</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</div>
+<ng-template #extraTemplate>
+  <button nz-button nzType="danger" title="Add New" (click)="addEditRecord(tplTitle, tplContent, tplFooter )">Add New
+    Environment Value</button>
+  <button nz-button nzType="danger" title="Select Fields to Export" aria-describedby="Select Fields to Export"><a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+    Export Environment Variables
+    <i nz-icon nzType="down"></i>
+  </a></button>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <nz-checkbox-wrapper class="check-group" (nzOnChange)="selectedColumns($event)">
+        <div nz-row nzJustify="space-between">
+          <label *ngFor="let colm of columnsToExport" nz-checkbox nzValue="{{colm}}" class="wrapper-label" [ngModel]="true">{{colm | uppercase}}</label>
+        </div>
+      </nz-checkbox-wrapper>
+    <div class="btn-nz">
+      <button nz-button nzType="primary" nzDanger nzSize="small" (click)="exportDataXlsx(exportEntries)">XLSX</button>
+    </div>
+    
+    </ul>
+  </nz-dropdown-menu>
+</ng-template>
+
+
+
+<ng-template #tplTitle>
+  <span>Add .env Variable</span>
+</ng-template>
+<ng-template #tplTitleEdit>
+  <span>Edit .env Variable</span>
+</ng-template>
+<ng-template #tplContent let-params>
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>KEY</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="keyErrorTpl">
+        <input nz-input formControlName="key" placeholder="KEY" />
+        <ng-template #keyErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">Please provide a value!</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>VALUE</nz-form-label>
+      <nz-form-control [nzSpan]="12" [nzErrorTip]="valueErrorTpl">
+        <input nz-input formControlName="value" placeholder="VALUE" />
+        <ng-template #valueErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">Please provide a value!</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>ENVIRONMENT</nz-form-label>
+      <nz-radio-group formControlName="env">
+        <label nz-radio nzValue="DEV">DEV</label>
+        <label nz-radio nzValue="TEST">TEST</label>
+        <label nz-radio nzValue="STAGING">STAGING</label>
+        <label nz-radio nzValue="PROD">PROD</label>
+      </nz-radio-group>
+    </nz-form-item>
+  </form>
+  <span *ngIf="errorMessage">
+    <nz-alert nzType="error" nzMessage="Error" [nzDescription]="'errorMessage'" nzShowIcon></nz-alert>
+  </span>
+</ng-template>
+
+<ng-template #tplFooter let-ref="modalRef">
+
+  <button nz-button (click)="ref.destroy()">Close</button>
+  <button *ngIf="!ref.config.nzComponentParams" [disabled]="!form.valid" nz-button nzType="primary"
+    (click)="submit(ref.config.nzComponentParams)" [nzLoading]="tplModalButtonLoading">Submit</button>
+  <button *ngIf="ref.config.nzComponentParams" [disabled]="!form.valid" nz-button nzType="danger"
+    (click)="saveChanges(ref.config.nzComponentParams)" [nzLoading]="tplModalButtonLoading">Save Changes</button>
+</ng-template>

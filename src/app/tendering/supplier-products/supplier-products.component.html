@@ -1,0 +1,60 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="100.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="Select Products"  nzSize="large">
+        <nz-table #basicTable [nzData]="data"  nzSize="small"  [nzFrontPagination]="false" [nzLoading]="'false'" [nzTotal]="'10'" [nzPageSize]="'10'" [nzPageIndex]="'0'" nzShowSizeChanger >
+            <thead style="font-weight: bold;">
+              <tr>
+                <th style="min-width: 100px;">ID</th>
+                <th style="min-width: 300px;" nzCustomFilter>Name
+                  <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                    <i nz-icon nzType="search"></i>
+                  </nz-filter-trigger>
+                </th>
+                <th style="min-width: 300px;">Description</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data">
+                <td>{{data.id}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.desc}}</td>
+                <td>
+                    <button (click)="addToQuote(data)" nz-button nzSize="small"  nzType="link" >
+                      <span  class="warning" style="color: green;">
+                        <mat-icon left>shopping_cart</mat-icon> <br>
+                        Add Item
+                      </span> 
+                    </button>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+        </nz-table>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            </div>
+          </div>
+        </nz-dropdown-menu>
+        <nz-modal nzCentered [(nzVisible)]="selectVisible" 
+            nzTitle="Add Quantity and Budget"
+            (nzOnCancel)="selectVisible = false"
+            (nzOnOk)="selectVisible = false">
+          <div class="" *nzModalContent>
+            <div class="search-box">
+              <input type="number" nz-input placeholder="Quantity" [(ngModel)]="quantity" />
+              <input type="number" nz-input placeholder="Budget" [(ngModel)]="budget" />
+              <span *ngIf="quantity == null && budget != null">Total: Calculating ... </span> 
+              <span *ngIf="quantity != null && budget== null">Total: Calculating ... </span> 
+              <span *ngIf="quantity != null && budget!= null">Total: {{quantity * budget}}</span> 
+              <span *ngIf="quantity == null && budget== null">Total: 0</span> <br>
+            </div>
+          </div>
+        </nz-modal>
+      </nz-card>
+    </div>
+</div>

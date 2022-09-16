@@ -1,0 +1,332 @@
+<div class="card-container">
+  <nz-tabset nzType="" [nzSize]="'large'" [nzCentered]="'true'">
+    <nz-tab  [nzTitle]="'HOP RFIs'">
+      <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+          <nz-card  [nzBordered]="true" nzTitle="" [nzExtra]="extraTemplate" nzSize="large">
+            <nz-input-group style="margin-bottom: 10px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+              <input type="text" (ngModelChange)="search()" nz-input placeholder="Search RFI" /> 
+              <!-- [(ngModel)]="searchValue" -->
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <mat-icon x-small (click)="search()" *ngIf="searchValue">clear</mat-icon>
+              <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+            </ng-template>
+            <nz-table #basicTable [nzData]="data" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <th>#</th>
+                  <th>Ref Number</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Sub Category</th>
+                  <th>Responses</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable.data" >
+                  <td>{{data.id}}</td>
+                  <td>{{data.rfiCode}}</td>
+                  <td>{{data.title | titlecase}}</td>
+                  <td>{{data.category}}</td>
+                  <td>{{data.subCategory | titlecase}}</td>
+                  <td>{{data.noOfSuppliers}}</td>
+                  <td>{{data.createdOn}}</td>
+                  <td>{{data.dueDate}}</td>
+                  <td>
+                      <button nz-button nzSize="small" nzType="primary" nzGhost
+                      [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon>&nbsp;
+                      Actions
+                      </button>
+                      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                          <button mat-menu-item (click)="viewRfi(data)">
+                              <mat-icon>remove_red_eye</mat-icon>View
+                          </button>
+                          <button  mat-menu-item (click)="editRfi(data)">
+                            <mat-icon>delete</mat-icon>Deactivate
+                        </button>
+                      </mat-menu>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <button nz-button nzType="primary" (click)="triggerModal()">
+              <mat-icon left>add</mat-icon>
+              Generate RFI
+            </button>&nbsp;
+            <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="exportWorkflowXLSX()">
+                    <mat-icon>file_copy</mat-icon>
+                    XLSX
+                </button>
+                <button mat-menu-item (click)="exportWorkflowPDF()">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    PDF
+                </button>
+            </mat-menu>
+          </ng-template>
+        </div>
+      </div>    
+    </nz-tab>
+    <nz-tab  [nzTitle]="'Buyer RFIs'">
+      <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+          <nz-card  [nzBordered]="true" nzTitle="" [nzExtra]="extraBuyer" nzSize="large">
+            <nz-input-group style="margin-bottom: 10px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+              <input type="text" (ngModelChange)="search()" nz-input placeholder="Search RFI" [(ngModel)]="searchValue"/>
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <mat-icon x-small (click)="search()" *ngIf="searchValue">clear</mat-icon>
+              <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+            </ng-template>
+            <nz-table #basicTable [nzData]="data" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <th>#</th>
+                  <th>Ref Number</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Sub Category</th>
+                  <th>no. of suppliers</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable.data" >
+                  <td>{{data.id}}</td>
+                  <td>{{data.rfiCode}}</td>
+                  <td>{{data.title | titlecase}}</td>
+                  <td>{{data.category}}</td>
+                  <td>{{data.subCategory | titlecase}}</td>
+                  <td>{{data.noOfSuppliers}}</td>
+                  <td>{{data.createdOn}}</td>
+                  <td>{{data.dueDate}}</td>
+                  <td>
+                      <button nz-button nzSize="small" nzType="primary" nzGhost
+                      [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon>&nbsp;
+                      Actions
+                      </button>
+                      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                          <button mat-menu-item (click)="triggerRespondModal()">
+                              <mat-icon>send</mat-icon>Respond
+                          </button>
+                          <button mat-menu-item (click)="viewRfi(data)">
+                            <mat-icon>remove_red_eye</mat-icon>View 
+                        </button>
+                          <button  mat-menu-item (click)="editRfi(data)">
+                            <mat-icon>delete</mat-icon>Deactivate
+                        </button>
+                      </mat-menu>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-card>
+          <ng-template #extraBuyer>
+            <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="exportWorkflowXLSX()">
+                    <mat-icon>file_copy</mat-icon>
+                    XLSX
+                </button>
+                <button mat-menu-item (click)="exportWorkflowPDF()">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    PDF
+                </button>
+            </mat-menu>
+          </ng-template>
+        </div>
+      </div>    
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+<!-- geneate RFI modal -->
+<nz-modal nzWidth="70%" [nzStyle]="{ top: '20px' }" 
+  [(nzVisible)]="isVisible" nzTitle="Generate RFI" 
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+   [nzOkText]="index == 1 ? 'Next':'Submit'">
+  <ng-container *nzModalContent>
+    <div class="header mt-1 pa-1">
+      <nz-steps [nzCurrent]="current">
+          <nz-step nzTitle="Select Supplier(s)"></nz-step>
+          <nz-step nzTitle="RFI Details"></nz-step>
+      </nz-steps>
+    </div>
+    <div class="step-1" *ngIf="index == 1">
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Search Company Name" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+      <nz-table
+      #rowSelectionTable
+      nzShowSizeChanger
+      [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      >
+        <thead>
+          <tr>
+            <th
+              [nzSelections]="listOfSelection"
+              [(nzChecked)]="checked"
+              [nzIndeterminate]="indeterminate"
+              (nzCheckedChange)="onAllChecked($event)"
+            ></th>
+            <th>Name
+              <nz-filter-trigger [(nzVisible)]="searchVisible" [nzActive]="searchValue != ''" [nzDropdownMenu]="menu">
+                <i nz-icon nzType="search"></i>
+              </nz-filter-trigger>
+            </th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.location }}</td>
+            <td>{{ data.category }}</td>
+            <td>{{ data.subCategory }}</td>
+            <td>{{ data.contact }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div class="step-2" *ngIf="index == 2">
+      <div fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="35px">
+        <div fxFlex.gt-sm="100%" class="ma-1 pa-1">
+            <form nz-form class="login-form">
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">1. RFI Title</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>    
+                        <input type="text" nz-input  placeholder="RFI Title" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired nzFor="nMW">2. Skills and Credentials you are looking for</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>
+                        <input type="text" nz-input  placeholder="Skills and Credentials" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">3. Evaluation Criteria</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>
+                        <input type="text" nz-input  placeholder="Evaluation Criteria" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">4. Deadline</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>
+                        <nz-date-picker ></nz-date-picker>
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">5. Attach Documents</nz-form-label>
+                <nz-form-item>
+                  <label for="file">Add Attachments</label> <br>
+                  <input type="file"  required>
+                </nz-form-item>
+              </form>
+        </div>
+    </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<!-- Respond RFI modal -->
+<nz-modal nzWidth="70%" [nzStyle]="{ top: '20px' }" 
+  [(nzVisible)]="respondModal" nzTitle="Respond to RFI" 
+  (nzOnCancel)="handleRespondCancel()" (nzOnOk)="respondWithSuppliers()"
+   [nzOkText]="'Submit Response'">
+  <ng-container *nzModalContent>
+    <div *ngIf="btnLoading" class="spinner">
+      <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+    </div>
+    <div>
+      <div nz-row class="ma-1">
+        <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="">
+          <nz-card style="width:100%;" nzTitle="Requesting Business Details" class="ma-1"  >
+            <div class="item"><span>Company Name: </span> Miles Industries
+                <br></div>
+            <div class="item"><span>Location: </span> Kiambu, Kikuyu<br></div>
+            <div class="item"><span>Business Type: </span> Government<br></div>
+            <div class="item"><span>Business SubSector: </span> Mining<br></div>
+            <div class="item"><span>Phone: </span> +2547 05 289 881<br></div>
+            <div class="item"><span>Email: </span> mutumamiles@eclectics.io<br></div>
+            <div class="item"><span>Employees: </span> 20<br></div>
+            <div class="item"><span>Created On: </span> 23/1/2022<br></div>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center " class="">
+          <nz-card style="width:100%;" nzTitle="RFI Details" class="ma-1"  >
+            <div class="item"><span>RFI Title: </span> Requesting info
+                <br></div>
+            <div class="item"><span>Category: </span> Kiambu, Kikuyu<br></div>
+            <div class="item"><span>Category: </span> Government<br></div>
+            <div class="item"><span>Sub Category: </span> Mining<br></div>
+            <div class="item"><span>Skills: </span> Competent<br></div>
+            <div class="item"><span>Deadline: </span> 13/4/2022<br></div>
+            <div class="item"><span>More Information: </span> View<br></div>
+          </nz-card>
+        </div>
+      </div>
+
+      <h2 style="text-align: center;" class="pa-1 ">Select Suppliers</h2>
+      <nz-table
+      #rowSelectionTable
+      nzShowSizeChanger
+      [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      >
+        <thead>
+          <tr>
+            <th
+              [nzSelections]="listOfSelection"
+              [(nzChecked)]="checked"
+              [nzIndeterminate]="indeterminate"
+              (nzCheckedChange)="onAllChecked($event)"
+            ></th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.location }}</td>
+            <td>{{ data.category }}</td>
+            <td>{{ data.subCategory }}</td>
+            <td>{{ data.contact }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+</nz-modal>

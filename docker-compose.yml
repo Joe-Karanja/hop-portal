@@ -1,0 +1,9 @@
+
+version: '1.0'
+services:
+  frontend:
+    image: 'dr.sqilab.com:25000/david95/pims_frontend:v1.0.2'
+    ports:
+    - 9819:9819
+    network_mode: host
+    

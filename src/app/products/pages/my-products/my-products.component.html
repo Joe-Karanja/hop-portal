@@ -1,0 +1,37 @@
+<div *ngIf="loading" class="spinner">
+  <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<div class="ma-1">
+    <div class="site-page-header-ghost-wrapper">
+        <nz-page-header nzBackIcon [nzGhost]="false" *ngIf="!loading">
+          <nz-page-header-title>OOKA Products</nz-page-header-title> <br>
+          <nz-page-header-subtitle>({{products.length}})</nz-page-header-subtitle>
+          <nz-page-header-extra>
+            <button (click)="toAddForm()" nz-button nzType="primary" >
+              Add Product
+            </button>
+          </nz-page-header-extra>
+          <nz-page-header-content>
+            
+          </nz-page-header-content>
+        </nz-page-header>
+    </div>
+    <nz-card class="" *ngFor="let i of products" [routerLink]="'/products/single-product/' + i" 
+      nz-card-grid [ngStyle]="gridStyle"  style="width:300px;" [nzCover]="coverTemplate" 
+      [nzActions]="[actionEdit, actionEllipsis]" [nzLoading]="loading">
+        <nz-card-meta
+          [nzTitle]=" i.productName "
+          [nzDescription]="'Ksh '+ i.productPrice"
+        ></nz-card-meta>
+        <ng-template #coverTemplate>
+          <img height="200px" width="200px" *ngIf="i.imageList.length > 0" alt="example" [src]="transform(i.imageList[0])"/>
+          <img height="200px" width="200px" *ngIf="i.imageList.length == 0" alt="example" [src]="'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'" />
+      </ng-template>
+    </nz-card>
+    <ng-template #actionEdit>
+        <i nz-icon nzType="edit" (click)="toEditProduct()"></i>
+    </ng-template>
+    <ng-template #actionEllipsis>
+        <i nz-icon nzType="ellipsis"></i>
+    </ng-template>
+</div>

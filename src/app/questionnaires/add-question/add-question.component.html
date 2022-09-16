@@ -1,0 +1,56 @@
+<nz-card [nzBordered]="false" [nzTitle]="cardTitle" [nzExtra]="extraTemplate" [nzActions]="[actionAdd]">
+    <p *ngIf="errorMessage" class="text-danger">{{erroMessage}}</p>
+    <p *ngIf="editEmailBool" class="text-danger">{{warningMessage}}</p>
+    <form nz-form [formGroup]="form">
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="template">Question</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <!-- <quill-editor *ngIf="addQBool || editEmailBool" nz-input formControlName="question" id="template" class="content-editor" [placeholder]="''" [styles]="{'min-height': '80px'}" [modules]="toolbar"> </quill-editor> -->
+                <textarea  rows="7" cols="14" nz-input formControlName="question" id="question"></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="templateType">User Type</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <nz-select formControlName="forBuyer" nzPlaceHolder="User Type" nzShowSearch>
+                    <nz-option nzLabel="Buyer" nzValue="Buyer">Buyer</nz-option>
+                    <nz-option nzLabel="Supplier" nzValue="Supplier">Supplier</nz-option>
+                    <nz-option nzLabel="Both Buyer and Supplier" nzValue="Both">Both Buyer and Supplier</nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="questionType">Qustion Type</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <nz-select formControlName="questionType" nzPlaceHolder="Question Type" nzShowSearch>
+                    <nz-option nzLabel="One Answer" nzValue="ONE_ANSWER">One Answer</nz-option>
+                    <nz-option nzLabel="Multiple Answers" nzValue="MULTIPLE_ANSWERS">Multiple Anwers</nz-option>
+                    <nz-option nzLabel="True/False" nzValue="BOOLEAN">true/false</nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="questionCategory">Category</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <nz-select formControlName="questionCategory" nzPlaceHolder="Question Category" nzShowSearch>
+                    <nz-option *ngFor="let cat of availableCategories" nzLabel="{{cat.name}}" nzValue="{{cat.name}}">{{cat.name}}</nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="includeAttachment">Include attachment?</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <label nz-checkbox formControlName="includeAttachment" (change)="onSelectChange($event)" nzPlaceHolder="Status" ></label>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-card>
+<ng-template #extraTemplate>
+    <button mat-mini-fab aria-label="close dialog" title="close dialog" class="atma-danger" (click)="close()"><mat-icon>close</mat-icon></button>
+</ng-template>
+<ng-template #actionAdd>
+    <button  nz-button nzType="primary" [disabled]="!form.valid && loading" *ngIf="addQBool" (click)="submitData()" [nzLoading]="loading" >Add Question</button>
+    <button  nz-button nzType="primary" [nzLoading]="loading" [disabled]="loading" *ngIf="!addQBool" (click)="submitData()" >Update Question</button>
+</ng-template>

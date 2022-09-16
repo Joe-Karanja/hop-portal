@@ -1,0 +1,165 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-between center" class="mt-2 m-3">
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget" >
+        <section class="sections">
+          <div mat-card-widget >
+            <div mat-card-float-icon>
+                <mat-icon>account</mat-icon>
+            </div>
+            <div class="pl-0">
+              <h2 class="values" mat-card-widget-title>{{ data.length }}</h2>
+              <p>Total Businesses</p>
+            </div>
+          </div>
+        </section>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget">
+        <section class="sections-pending">
+          <div mat-card-widget>
+            <div mat-card-float-icon>
+  
+            </div>
+            <div class="pl-0">
+              <h2 class="values" mat-card-widget-title>1</h2>
+              <p>Pending Approval</p>
+            </div>
+          </div>
+        </section>
+  
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget">
+        <section class="sections-success">
+          <div mat-card-widget>
+            <div mat-card-float-icon>
+  
+            </div>
+            <div class="pl-0">
+              <h2 class="values" mat-card-widget-title>2</h2>
+              <p>Approved</p>
+            </div>
+          </div>
+        </section>
+  
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget">
+        <section class="sections-failed">
+          <div mat-card-widget>
+            <div mat-card-float-icon>
+  
+            </div>
+            <div class="pl-0">
+              <h2 class="values" mat-card-widget-title>0</h2>
+              <p>Rejected</p>
+            </div>
+          </div>
+
+        </section>
+      </mat-card>
+    </div>
+</div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="mt-2">
+    <nz-card nzTitle="" [nzExtra]="extraTemplate" nzSize="large">
+      <div class="header">
+        <!-- <nz-input-group style="margin-bottom: 1px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+          <input type="text" (ngModelChange)="search()" nz-input placeholder="Search Company" [(ngModel)]="searchValue"/>
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <mat-icon x-small (click)="loadBusinesses()" *ngIf="searchValue">clear</mat-icon>
+          <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+        </ng-template> -->
+        <form nz-form [nzLayout]="'inline'" fxLayout="row" fxLayoutAlign="end" [formGroup]="dateForm"  class="ma-1 pa-1">
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Required!">
+              <nz-input-group >
+                  <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzPlaceHolder]="'Filter from'"></nz-date-picker>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Required!">
+              <nz-input-group >
+                  <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzPlaceHolder]="'Filter to'"></nz-date-picker>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="link" >Filter</button>
+            </nz-form-control>
+          </nz-form-item>
+      </form>
+      </div>
+        <nz-table [nzBordered]="false" #basicTable nzSize="large" 
+        [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="perPage" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)"
+        [nzData]="data" [nzLoading]="loading">
+            <thead>
+                <tr>
+                    <th nzCustomFilter>Company Name
+                      <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                        <i nz-icon nzType="search"></i>
+                      </nz-filter-trigger>
+                    </th>
+                    <th>Location</th>
+                    <th>Business Type</th>
+                    <th>Business Sub Sector</th>
+                    <!-- <th>Phone Number</th> -->
+                    <th>Email</th>
+                    <th>Users</th>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{ data.businessName }}</td>
+                    <td>{{ data.location }}</td>
+                    <td>{{ data.businessType }}</td>
+                    <td>{{ data.businessSubsector }}</td>
+                    <!-- <td>{{ data.businessPhoneNumber }}</td> -->
+                    <td>{{ data.businessEmail }}</td>
+                    <td>{{ data.usersCount }}</td>
+                    <td>{{ data.businessCapacity }}</td>
+                    <td>
+                      <nz-tag *ngIf="data.approvalStatus == 'APPROVED'" nzColor="success" nzShape="round">APPROVED</nz-tag>
+                      <nz-tag *ngIf="data.approvalStatus == 'PENDING'" nzColor="gold" nzShape="round">PENDING</nz-tag>
+                      <nz-tag *ngIf="data.approvalStatus == 'DECLINED'" nzColor="error" nzShape="round">DECLINED</nz-tag>
+                    </td>
+                    <td>{{ data.createdOn }}</td>
+                    <td>
+                        <button nz-button nzSize="small"  
+                        [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                          Actions
+                        </button>
+                        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                            <button mat-menu-item  title="Edit Template" aria-describedby="Edit Template" (click)="view(data)">
+                                <mat-icon>remove_red_eye</mat-icon>View
+                            </button>
+                        </mat-menu>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </nz-table>
+    </nz-card>
+    <ng-template #extraTemplate>
+        <!-- <button nz-button nzType="primary" (click)="triggerModal('')"><mat-icon></mat-icon>&nbsp;Add Question</button> -->
+    </ng-template>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+</div>

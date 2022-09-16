@@ -1,0 +1,71 @@
+<h2 style="text-align: center;" class="ma-1">Add Product</h2>  
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="35px" class="row">
+    <div fxFlex.gt-sm="50%" class="ma-1 pa-1">
+        <form nz-form [formGroup]="validateForm" class="login-form">
+            <nz-form-item> 
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Category</nz-form-label>
+                <nz-form-control nzErrorTip="Product Category Required!">
+                    <nz-select nzPlaceHolder="Please select category" formControlName="categoryName" (ngModelChange)="getSubs($event)">
+                        <nz-option [(ng-model)]="cat" *ngFor="let option of productCategories" [nzLabel]="option.name" [nzValue]="option"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Sub Caregory</nz-form-label>
+                <nz-form-control nzErrorTip="Product Sub Category Required!">
+                    <nz-select nzPlaceHolder="Please select sub-category" formControlName="subCategoryName">
+                        <nz-option *ngFor="let option of subCats" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Product Name</nz-form-label>
+                <nz-form-control nzErrorTip="Product Name Required!">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="productName" placeholder="Product Name" />
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Tags</nz-form-label>
+                <nz-form-control nzErrorTip="Tags required!">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="tag" placeholder="Tag" />
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Unit Price</nz-form-label>
+                <nz-form-control nzErrorTip="Unit Price Required!">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="price" placeholder="Unit Price" />
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">Product Description</nz-form-label>
+                <nz-form-control nzErrorTip="Product Name Required!">
+                  <nz-input-group>
+                    <quill-editor nz-input formControlName="description" id="template" class="content-editor" [placeholder]="''" [styles]="{'min-height': '120px'}" [modules]="toolbar"> </quill-editor>
+                    <!-- <textarea nz-input formControlName="description" id="template" class="content-editor" [placeholder]="''"> </textarea> -->
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+          </form>
+    </div>
+    <div fxFlex.gt-sm="30%" class="ma-1 pa-1 text-center">
+      <h3 class="text-muted" style="text-align: center;">Select atleast two images</h3>
+        <div class="clearfix">
+          <label for="file">Add Images</label> <br>
+          <input type="file" (change)="handleFiles($event)"  accept="image/png, image/jpeg" class="file-input"  placeholder="Product Images" required multiple>
+        </div>
+        <div class="clearfix">
+          <img [(src)]="imageUrl" alt="jod" height="200px" width="200px">
+          <label for="file">Add Image</label> <br>
+          <input type="file" (change)="handleFiles1($event)"  accept="image/png, image/jpeg" class="file-input"  placeholder="Product Images" required>
+        </div>
+    </div>
+</div>
+<div style="text-align:center;">
+    <button nz-button (click)="submitForm()" class="login-form-button login-form-margin" [  ]="'primary'">Add Product</button>
+</div>

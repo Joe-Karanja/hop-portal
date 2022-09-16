@@ -1,0 +1,60 @@
+<div class="content">
+  <nz-divider nzDashed [nzText]="supplier">
+    <ng-template #supplier>
+      <mat-icon>list</mat-icon>
+      Supplier 
+    </ng-template>
+  </nz-divider>
+    <div class="company ma-2">
+        <p style="font-size: 18px;">
+            <span>This Order will be fullfilled by</span>
+            <a> HOP</a>
+        </p>
+    </div>
+    <nz-divider nzDashed [nzText]="items">
+      <ng-template #items>
+        <mat-icon>shopping_cart</mat-icon>
+        Items 
+      </ng-template>
+    </nz-divider>
+    <div class="items ma-2">
+        <nz-table #basicTable [nzData]="quoteItems"  nzSize="small"  [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger >
+            <thead style="font-weight: bold;">
+              <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data; index as i">
+                <td>{{data.name}}</td>
+                <td>
+                  {{ data.quantity}}
+                </td>
+                <td>
+                  {{data.budget}}
+                </td>
+                <td>
+                  {{data.quantity * data.budget}}
+                </td>
+              </tr>
+              <div class="mt-4 pa-1">
+                <div class="item"><span>Grand Total: </span> 42000</div> 
+                <div class="item"><span>Bid amount: </span> 40000<br></div>
+              </div> 
+            </tbody>
+          </nz-table>
+    </div>
+    <div class="actions">
+      <button class="accept" (click)="closeModal()" >
+        <mat-icon>check</mat-icon>
+        Accept Bid and Generate Purchase Order
+      </button>
+      <button class="cancel" >
+        <mat-icon>cancel</mat-icon>
+        Reject Bid
+      </button>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="System-Wide RFQs" [nzExtra]="extraTemplate" nzSize="large">
+        <nz-input-group style="margin-bottom: 10px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+          <input type="text" (ngModelChange)="search()" nz-input placeholder="Search RFQ" [(ngModel)]="searchValue"/>
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <mat-icon x-small (click)="search()" *ngIf="searchValue">clear</mat-icon>
+          <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+        </ng-template>
+        <nz-table #basicTable [nzData]="data" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead style="font-weight: bold;">
+            <tr>
+              <th>#</th>
+              <th>Ref Number</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Product Category</th>
+              <th>Product Sub Category</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data" >
+              <td>{{data.id}}</td>
+              <td>{{data.rfiCode}}</td>
+              <td>{{data.title | titlecase}}</td>
+              <td>{{data.quantity}}</td>
+              <td>{{data.category}}</td>
+              <td>{{data.subCategory | titlecase}}</td>
+              <td>{{data.createdOn}}</td>
+              <td>{{data.dueDate}}</td>
+              <td><nz-tag nzColor="success" nzShape="round">Not Responded</nz-tag></td>
+              <td>
+                  <button nz-button nzSize="small" nzType="primary" nzGhost
+                  [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon>&nbsp;
+                  Actions
+                  </button>
+                  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item (click)="triggerModal(data)">
+                      <mat-icon>send</mat-icon>Respond
+                    </button>
+                      <button mat-menu-item (click)="viewRfi(data)">
+                          <mat-icon>remove_red_eye</mat-icon>View
+                      </button>
+                      <button  mat-menu-item (click)="editRfi(data)">
+                        <mat-icon>delete</mat-icon>Deactivate
+                    </button>
+                  </mat-menu>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+      <ng-template #extraTemplate>
+        <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+            <button mat-menu-item (click)="exportWorkflowXLSX()">
+                <mat-icon>file_copy</mat-icon>
+                XLSX
+            </button>
+            <button mat-menu-item (click)="exportWorkflowPDF()">
+                <mat-icon>picture_as_pdf</mat-icon>
+                PDF
+            </button>
+        </mat-menu>
+      </ng-template>
+    </div>
+</div>
+<!-- Respond RFI modal -->
+<nz-modal nzWidth="70%" [nzStyle]="{ top: '20px' }" 
+  [(nzVisible)]="respondModal" nzTitle="Respond to RFQ" 
+  (nzOnCancel)="handleRespondCancel()" (nzOnOk)="respondWithSuppliers()"
+   [nzOkText]="' '">
+  <ng-container *nzModalContent>
+    <div *ngIf="btnLoading" class="spinner">
+      <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+    </div>
+    <div>
+      <div nz-row class="ma-1">
+        <div nz-col nzSpan="8" fxLayout="col" fxLayoutAlign="center" class="">
+          <nz-card style="width:100%;" nzTitle="RFQ Details" class="ma-1"  >
+            <div class="item"><span>Company: </span>
+              <nz-tag nzColor="success" nzShape="round">View Company Profile</nz-tag>
+                <br></div>
+                <div class="item"><span>RFQ Title: </span> Office Chairs Quote 
+                  <br></div>
+                <div class="item"><span>Product Category: </span> Government<br></div>
+                <div class="item"><span>Product Sub Category: </span> Mining<br></div>
+                <div class="item"><span>Skills: </span> Competent<br></div>
+                <div class="item"><span>Deadline: </span> 13/4/2022<br></div>
+                <div class="item"><span>More Information: </span> View<br></div>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="16" fxLayout="col" fxLayoutAlign="center " class="">
+          <nz-card style="width:100%;" nzTitle="Add Supplier" class="ma-1"  >
+            <nz-table #itemsTable [nzData]="singleData"  nzSize="small"  [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let data of itemsTable.data">
+                  <td>
+                      {{data.title}}
+                  </td>
+                  <td>{{data.quantity}}</td>
+                  <td>120</td>
+                  <td>
+                    <button *ngIf="supplierAdded" nz-button nzSize="small"  nzType="primary" (click)="triggerSupplierModal(data.title)">Added</button>
+                    <button *ngIf="!supplierAdded" nz-button nzSize="small"  nzType="link" (click)="triggerSupplierModal(data.title)">Add Supplier</button>
+                  </td>
+                </tr>
+              </tbody>
+          </nz-table>  
+          </nz-card>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</nz-modal>
+
+<!-- Add Supplier -->
+<nz-modal nzWidth="60%" [nzStyle]="{ top: '20px' }" 
+  [(nzVisible)]="addSupplierModal" nzTitle="Add Supplier" 
+  (nzOnCancel)="handleSupplieCancel()" (nzOnOk)="handleSupplierOk()"
+   [nzOkText]="'Select'">
+  <ng-container *nzModalContent>
+    <div *ngIf="btnLoading" class="spinner">
+      <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+    </div>
+    <div>
+      <div nz-row class="ma-1">
+        <div nz-col nzSpan="24" fxLayout="col" fxLayoutAlign="center " class="">
+          <nz-card style="width:100%;"  class="ma-1"  >
+            <nz-input-group style="margin-bottom: 10px;" fxFlex.gt-sm="40.00%" nzSearch  [nzSuffix]="suffixIconSearch">
+              <input type="text" (ngModelChange)="searchProducts()" nz-input placeholder="Search Product"
+              [(ngModel)]="searchProductValue" /> 
+              <!--  -->
+            </nz-input-group>
+            <br>
+            <span class="mb-1">Showing results for: {{searchProductValue}}</span>
+            <ng-template #suffixIconSearch>
+              <mat-icon x-small (click)="search()" *ngIf="searchValue">clear</mat-icon>
+              <i nz-icon nzType="search" *ngIf="!searchValue"></i>
+            </ng-template>
+            <nz-table 
+            #rowSelectionTable
+            nzShowSizeChanger
+            #itemsTable [nzData]="suppliers"  
+            nzSize="small" 
+             [nzFrontPagination]="false" [nzLoading]="loading" 
+             [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" 
+             nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <th
+                    [nzSelections]="listOfSelection"
+                    [(nzChecked)]="checked"
+                    [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)"
+                  ></th>
+                  <th>Product Name</th>
+                  <th>Company Name</th>
+                  <th>Product Category</th>
+                  <th>Product SubCategory</th>
+                  <th>Unit Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let data of itemsTable.data">
+                  <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                  <td> {{data.title}}</td>
+                  <td> {{data.name}}</td>
+                  <td>{{data.category}}</td>
+                  <td>{{data.subCategory}}</td>
+                  <td>Kes. {{data.amount}}</td>
+                </tr>
+              </tbody>
+          </nz-table>  
+          </nz-card>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

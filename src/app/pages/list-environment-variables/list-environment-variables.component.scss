@@ -1,0 +1,38 @@
+.search-box {
+    padding: 8px;
+  }
+
+  .search-box input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .search-box button {
+    width: 90px;
+  }
+
+  .search-button {
+    margin-right: 8px;
+  }
+
+.check-group {
+  width: 95%;
+  margin-bottom: 5px;
+}
+.btn-nz {
+ justify-content: center;
+ margin-left: 10px;
+ margin-bottom: 10px;
+}
+
+[nz-row] {
+  width: 25px;
+}
+
+nz-checkbox-wrapper {
+  .wrapper-label {
+    margin-bottom: 10px;
+    margin-left: 5px;
+  }
+}

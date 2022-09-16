@@ -1,0 +1,114 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-between start"  *ngIf="transaction">
+    <div fxFlex.gt-sm="33.33%">
+        <mat-card>
+            <mat-card-content>
+                <h4 mat-subheader class="text-uppercase font-weight-bold" style="color: #14314f;"><mat-icon>show_chart</mat-icon>&nbsp;&nbsp;Transaction Details </h4>
+           
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Transaction Status:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        
+                        <app-success-label [labelValue]="transaction.TRANSACTIONRESPONSE"></app-success-label>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>ESB Transaction Reference Number:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.ESBREFID}}</code></p>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Channel Reference Number:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.CHANNELREFID}}</code></p>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Transaction Amount:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.TRANSACTIONAMOUNT | currency:"ZMW"}}</code></p>
+                    </div>
+                </div> 
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Transaction Narration:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.TRANSACTIONNARRATION}}</code></p>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Third Party Response Message:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.THIRDPARTYRESPONSEMESSAGE}}</code></p>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex.gt-sm="50">
+                        <p><b>Transaction Date:&nbsp; </b></p>
+                    </div>
+                    <div fxFlex.gt-sm="50">
+                        <p><code> {{transaction.CREATED_ON}}</code></p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="66.66%">
+        <mat-card>
+            <mat-card-content>
+                <h4 mat-subheader class="text-uppercase font-weight-bold" style="color: #14314f;">ESB Related Information</h4>
+                <hr>
+                <nz-table [nzBordered]="false" #basicTable nzSize="small" [nzData]="transaction" [nzLoading]="loading" >
+                    <thead>
+                        <tr>
+                            <th>ESB Reference No.</th>
+                            <th>Channel Name</th>
+                            <th>Service Name</th>
+                            <th>Project Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>{{transaction.ESBREFID}}</td>
+                        <td>{{transaction.CHANNELNAME}}</td>
+                        <td>{{transaction.SERVICENAME}}</td>
+                        <td>{{transaction.PROJECTCODE}}</td>
+                    </tbody>
+                </nz-table>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <h4 mat-subheader class="text-uppercase font-weight-bold" style="color: #14314f;"> Billing Details</h4>
+            </mat-card-content>
+            <nz-table [nzBordered]="false" #basicTable nzSize="small" [nzData]="transaction" [nzLoading]="loading" >
+                <thead>
+                    <tr>
+                        <th>Biller Reference Number</th>
+                        <th>Receiver Reference ID</th>
+                        <th>Bank Short Code</th>
+                        <th>Receipt Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                       <td>{{transaction.BILLERREFNO}}</td>
+                       <td>{{transaction.RECEIVERPARTYIDENTIFIER}}</td>
+                       <td>{{transaction.BANKSHORTCODE}}</td>
+                       <td>{{transaction.THIRDPARTYREFID}}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </mat-card>
+    </div>
+</div>

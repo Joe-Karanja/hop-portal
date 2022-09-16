@@ -1,0 +1,65 @@
+span {
+    font-size: 13px;
+    color: rgb(120, 126, 150);
+}
+
+.row {
+    background-color: white;
+}
+.companyName {
+    font-size: 22px;
+    color: rgb(44, 50, 75);
+    font-weight: bold;
+}
+.item {
+    margin-top: 10px;
+    font-size: 16px;
+    color: rgb(69, 74, 95);
+}
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.card {
+    border: 3px dashed rgb(165, 181, 246);;
+    background-color: rgba(255, 253, 244, 0.841);
+    transition: 0.3s;
+    border-radius: 10px; /* 5px rounded corners */
+    padding-top: 10px;
+    margin: 10px;
+    width: 90%;
+    margin-left: 20px;
+    min-height: 80px;
+    text-align: center;
+}
+
+.card:hover {
+    background-color: rgb(255, 240, 173);
+    box-shadow: 0 8px 16px 0 rgba(57, 55, 105, 0.2);
+}
+
+.docDesc {
+   font-weight: 400;
+    word-spacing: 4px;
+    font-size: 13px;
+    color: rgb(62, 65, 77); 
+}
+.cardDesc {
+    font-weight: 600;
+    margin-bottom: 100px;
+    word-spacing: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: rgb(78, 82, 96);
+    text-align: center;    
+}
+  
+nz-form-item {
+    margin: 10px;
+    width: 80%;
+}

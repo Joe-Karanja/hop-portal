@@ -1,0 +1,141 @@
+@import "scss/material.variables";
+@import "scss/material.themes";
+@import "scss/mixins/bi-app/bi-app-ltr";
+// Core Variables and Mixins
+@import "scss/app.variables";
+@import "scss/mixins";
+// Core Styles
+@import "scss/core";
+@import "scss/material";
+@import "scss/utilities/utilities";
+//Toastr Style
+@import '~ngx-toastr/toastr';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+
+html {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: small;
+}
+
+nz-list-item.list-hover:hover {
+    background-color: #b3bbba;
+    color: white;
+    //margin-left: 10px;
+}
+
+// nz-card {
+//     box-shadow: 2px 2px 2px 1px #868484;
+// }
+
+table-header {
+    font-weight: bold;
+}
+.atma-warning {
+    color: #d46b08;
+}
+.atma-success2 {
+    color: #389e0d;
+}
+.atma-failed {
+    color: #c41d7f;
+}
+.atma-default {
+    color: #14314f;
+}
+.card-background {
+    background-color: #14314f; 
+    color: wheat;
+}
+.atma-success {
+    color: white;
+    background-color: #387CA6;
+    
+}
+.atma-danger {
+    background-color: #d91A1A;
+    color: white;
+}
+.atma-text {
+    color: #d91A1A;
+}
+.atma-background {
+    background-color: #0c1D40;
+    color: white;
+}
+.atma-ssucess {
+    background-color: rgb(27, 146, 27);
+    color: white;
+}
+.atma-second-card {
+    background-color: #868484;
+    color: white;
+}
+.iconify {
+    font-size: 150%;
+    vertical-align: middle;
+}
+.text-danger {
+    color: red;
+}
+.btn {
+    background-color: #14314f;
+    color: white;
+    float: right;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    width: 90% !important;
+}
+mat-icon {
+    vertical-align: middle;
+}
+mat-header-cell {
+    background-color: #14314f;
+    color: white;
+}
+.thead-bold {
+    font-weight: bold;
+}
+.search-box {
+    padding: 8px;
+    input {
+        width: 188px;
+        margin-bottom: 8px;
+        display: block;
+    }
+}
+nz-select {
+    width: 140px;
+}
+.sections-last {
+    height: 60px !important;
+    border-right: 4px solid #ffffff;
+}
+.sections {
+    height: 50px !important;
+    padding-top: 10px !important;
+    margin-left: 10px !important;
+    border-right: 5px solid #868484;
+}
+.sections-failed {
+    height: 50px !important;
+    padding-top: 10px !important;
+    margin-left: 10px !important;
+    border-right: 5px solid #d91A1A;
+}
+
+.sections-success {
+    height: 50px !important;
+    padding-top: 10px !important;
+    margin-left: 10px !important;
+    border-right: 5px solid rgb(27, 146, 27);
+}
+
+.sections-pending {
+    height: 50px !important;
+    padding-top: 10px !important;
+    margin-left: 10px !important;
+    border-right: 5px solid #d46b08;
+}
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";

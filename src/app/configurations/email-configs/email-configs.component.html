@@ -1,0 +1,45 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="90%" fxFlex.gt-xs="90%" fxFlex="100%">
+        <nz-card nzTitle="{{cardTitle | uppercase}}" [nzExtra]="extraTemplate" nzSize="small" [nzLoading]="loading">
+            <nz-table [nzBordered]="true" #basicTable nzSize="small" [nzData]="availableTemplates" [nzLoading]="loading">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Template</th>
+                        <th>Template Type</th>
+                        <th>Template Name</th>
+                        <th>Description</th>
+                        <th>CreatedOn</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td>{{data.subject}}</td>
+                        <td><div [innerHTML]="data.message"></div></td>
+                        <td>{{data.messageType}}</td>
+                        <td>{{data.type}}</td>
+                        <td>{{data.description}}</td>
+                        <td>{{data.createdOn}}</td>
+                        <td>
+                            <button nz-button nzSize="small"  
+                            [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                            Actions
+                            </button>
+                            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                                <button mat-menu-item (click)="editEmail(data)" title="Edit User" aria-describedby="Edit User">
+                                    <mat-icon>edit</mat-icon>Edit
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </nz-table>
+        </nz-card>
+        <ng-template #extraTemplate>
+            <button nz-button nzType="primary" (click)="addEmail('')"><mat-icon>exposure_plus_1</mat-icon>&nbsp;Add Template</button>
+        </ng-template>
+    </div>
+</div>
+

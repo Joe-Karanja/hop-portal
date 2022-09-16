@@ -1,0 +1,26 @@
+th {
+    font-weight: bold;
+  }
+  .filterRow {
+      margin-bottom: 7px;
+  }
+  [nz-row] {
+      width: 100px;
+  }
+  [nz-icon] {
+      vertical-align: middle;
+  }
+  nz-checkbox-wrapper {
+      height: 350px;
+      width: 200px;
+      overflow-y: scroll;
+      .wrapper-label {
+          margin-bottom: 10px;
+          margin-left: 5px;
+      }
+  }
+  .btn-nz {
+      text-align: left;
+      margin-left: 5px;
+      margin-bottom: 10px;
+     }

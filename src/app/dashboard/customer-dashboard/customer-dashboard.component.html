@@ -1,0 +1,107 @@
+<!-- <div fxLayout="row wrap" fxLayoutAlign="start center">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <nz-select nzPlaceHolder="Select Report Period">
+      <nz-option *ngFor="let report of reportTypes" [nzLabel]="report" [nzValue]="report"></nz-option>
+    </nz-select>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <nz-select nzPlaceHolder="Select Service">
+      <nz-option *ngFor="let service of availableServices" [nzLabel]="service" [nzValue]="service">{{service}}</nz-option>
+    </nz-select>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <nz-range-picker [(ngModel)]="selectedDate" (ngModelChange)="onChange($event)"></nz-range-picker>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <button nz-button nzType="primary" nzSize="large" 
+    [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Report Summary</button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item title="Export transactions in xlsx" aria-describedby="Export transactions in xlsx" (click)="exportTransactions()">
+        <span class="iconify" data-icon="icons8:xls"></span>&nbsp;Transactions Summary
+      </button>
+      <button mat-menu-item (click)="exportTransactionsByChannels()">
+        <span class="iconify" data-icon="icons8:xls"></span>&nbsp;Transactions By Channels Summary
+      </button>
+    </mat-menu>
+  </div>
+</div> -->
+<div fxLayout="row wrap"class="textFont">
+    <div fxFlex.gt-sm="25%" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget atma-background">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="pl-0">
+            <h2 mat-card-widget-title>9823</h2>
+            <p>Registration Attempts</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25%" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget atma-second-card">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+            <mat-icon>done</mat-icon>
+          </div>
+          <div class="pl-0">
+            <h2 mat-card-widget-title>23,000</h2>
+            <p>Active Customers</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25%" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget atma-success">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+            <span class="iconify" data-icon="uil:percentage"></span>
+          </div>
+          <div class="pl-0">
+            <h2 mat-card-widget-title>23,470</h2>
+            <p>Total Registered customers</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25%" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-card class="card-widget atma-danger">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+            <span class="iconify" data-icon="uil:percentage"></span>
+          </div>
+          <div class="pl-0">
+            <h2 mat-card-widget-title>2%</h2>
+            <p>Inactive Customers Rate</p> 
+          </div>
+        </div>
+      </mat-card>
+    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="50.00%" fxFlex.gt-xs="80" fxFlex="100">
+        <mat-card>
+            <mat-card-subtitle fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon>assessment</mat-icon>Customer Registration Trend &nbsp;
+                <span fxFlex></span>
+              </mat-card-subtitle>
+              <mat-card-content>
+                <canvas height="140" baseChart class="chart" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                [colors]="chartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
+              </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="50.00%" fxFlex.gt-xs="80" fxFlex="100">
+      <mat-card>
+        <mat-card-subtitle fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>assessment</mat-icon>Customer Registration by Channel &nbsp;
+            <span fxFlex></span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <canvas height="140" baseChart class="chart" [data]="pieChartData" [labels]="pieChartLabels" [options]="pieChartOptions"
+            [colors]="chartColors" [legend]="pieChartLegend" [chartType]="pieChartType"></canvas>
+          </mat-card-content>
+    </mat-card>
+    </div>
+</div>

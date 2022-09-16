@@ -1,0 +1,50 @@
+.card {
+    border: 1px solid rgb(219, 226, 252);
+    background-color: rgb(243, 244, 252);
+    transition: 0.3s;
+    border-radius: 10px; /* 5px rounded corners */
+    padding: 10px;
+    padding-top: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  .item {
+    margin-top: 10px;
+    font-size: 16px;
+    color: rgb(69, 74, 95);
+}
+
+.file, .file1, .file2 {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    margin: 10px;
+    position: absolute;
+}
+
+.file-input label {
+    display: block;
+    position: relative;
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+    border: 2px solid gray;
+    // background: linear-gradient(40deg, #4772ff, #2d8fff);
+    box-shadow: 0 4px 7px rgba(133, 188, 252, 0.247);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform .2s ease-out;
+}
+nz-form-item {
+    margin: 20px;
+}

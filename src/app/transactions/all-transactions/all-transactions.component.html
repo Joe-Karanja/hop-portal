@@ -1,0 +1,187 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-between start" class="filterRow">
+    <div fxFlex.gt-sm="14.66%" fxFlex.gt-xs="33.33%" fxFlex="100" class="exportData">    <nz-select nzPlaceHolder="Select Project"  [(ngModel)]="project" (ngModelChange)="projectData($event)">
+        <nz-option nzLabel="ALL" nzValue="ALL">ALL</nz-option>
+        <nz-option *ngFor="let project of availableProjects" nzLabel="{{project.PROJECT_NAME}}" nzValue="{{project.PROJECT_ABBREVIATION}}">{{project.PROJECT_NAME}}</nz-option>
+      </nz-select>
+    </div>
+    <div fxFlex.gt-sm="14.66%" fxFlex.gt-xs="33.33%" fxFlex="100">
+      <nz-select nzPlaceHolder="Select Service"  [(ngModel)]="selectedService" (ngModelChange)="serviceData($event)" nzShowSearch nzAllowClear>
+        <nz-option nzLabel="ALL" nzValue="ALL">ALL</nz-option>
+        <nz-option *ngFor="let service of availableServices" nzLabel="{{service.SERVICE_NAME}}" nzValue="{{service.ID}}">{{service.SERVICE_NAME}}</nz-option>
+      </nz-select>
+    </div>
+    <div fxFlex.gt-sm="15.66%" fxFlex.gt-xs="33.33%" fxFlex="100">
+      <nz-select nzPlaceHolder="Select Channel"  [(ngModel)]="selectedChannel" (ngModelChange)="channelTransData($event)">
+        <nz-option nzLabel="ALL" nzValue="ALL">ALL</nz-option>
+        <nz-option *ngFor="let channel of availableChannels" nzLabel="{{channel.CHANNEL_NAME}}" nzValue="{{channel.CONSUMER_KEY}}">{{channel.CHANNEL_NAME}}</nz-option>
+      </nz-select>
+    </div>
+    <div fxFlex.gt-sm="15.66%" fxFlex.gt-xs="33.33%" fxFlex="100">
+        <nz-select nzPlaceHolder="Select Transaction Status"  [(ngModel)]="transStatus" (ngModelChange)="transactionStatus($event)">
+            <nz-option nzLabel="ALL" nzValue="ALL">ALL</nz-option>
+            <nz-option nzLabel="Success" nzValue="00">Succesful</nz-option>
+            <nz-option nzLabel="Failed" nzValue="01">Unsuccessful</nz-option>
+        </nz-select>
+      </div>
+    <div fxFlex.gt-sm="18.66%" fxFlex.gt-xs="33.33%" fxFlex="100" fxFlexOffset="15px">
+      <nz-range-picker [(ngModel)]="selectedDate" name="selectedDate" (ngModelChange)="onChange($event)"></nz-range-picker>
+    </div>
+    <div fxFlex.gt-sm="14.66%" fxFlex.gt-xs="33.33%" fxFlex="100">
+      <button nz-button nzType="primary" nzDanger (click)="resetFilters()" nzShape="round" title="Reset Filters" aria-describedby="Reset Filters"><mat-icon>remove</mat-icon>&nbsp;Clear Filters</button>
+    </div>
+</div>
+<div fxLayout="row wrap" fxLayoutAlign="space-between center" class="mt-2">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <mat-card class="card-widget">
+      <section class="sections">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+
+          </div>
+          <div class="pl-0">
+            <h2 class="values" mat-card-widget-title>{{total}}</h2>
+            <p>TOTAL TRANSACTIONS</p>
+          </div>
+        </div>
+      </section>
+
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <mat-card class="card-widget">
+      <section class="sections-pending">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+
+          </div>
+          <div class="pl-0">
+            <h2 class="values" mat-card-widget-title>{{pendingCount}}</h2>
+            <p>PENDING TRANSACTIONS</p>
+          </div>
+        </div>
+      </section>
+
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <mat-card class="card-widget">
+      <section class="sections-success">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+
+          </div>
+          <div class="pl-0">
+            <h2 class="values" mat-card-widget-title>{{successCount}}</h2>
+            <p>SUCCESSFUL TRANSACTIONS</p>
+          </div>
+        </div>
+      </section>
+
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="50" fxFlex="100">
+    <mat-card class="card-widget">
+      <section class="sections-failed">
+        <div mat-card-widget>
+          <div mat-card-float-icon>
+
+          </div>
+          <div class="pl-0">
+            <h2 class="values" mat-card-widget-title>{{failCount}}</h2>
+            <p>FAILED TRANSACTIONS</p>
+          </div>
+        </div>
+      </section>
+
+    </mat-card>
+  </div>
+
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" class="mt-2">
+    <div fxFlex.gt-sm="100%" fxFlex.gt-xs="100%">
+        <nz-card nzTitle="{{cardTitle | uppercase}}" [nzExtra]="extraTemplate" nzSize="large">
+            <nz-table [nzBordered]="false" #basicTable nzSize="small" [nzData]="transactions" [nzLoading]="loading" [nzFrontPagination]="false" nzShowSizeChanger [nzTotal]="total" [nzPageSize]="perPage" [nzPageIndex]="page" [nzScroll]="{ x: '1150px'}" 
+            (nzQueryParams)="onQueryParamsChange($event)">
+                <thead>
+                    <tr>
+                        <th *ngIf="mandatoryColumns.includes('ID')" id="ID">ID</th>
+                        <th *ngIf="mandatoryColumns.includes('ESB Reference ID')" id="ESB Reference ID">ESB Reference ID</th>
+                        <th *ngIf="mandatoryColumns.includes('Service Name')" id="Service Name">Service Name</th>
+                        <th *ngIf="mandatoryColumns.includes('Channel Name')"  id="Channel Name">Channel Name</th>
+                        <th *ngIf="mandatoryColumns.includes('Channel Reference ID')"  id="Channel Name" id="Channel Reference ID">Channel Reference ID</th>
+                        <th *ngIf="mandatoryColumns.includes('Project Code')" id="Project Code">Project Code</th>
+                        <th *ngIf="mandatoryColumns.includes('Transaction Status')" id="Transaction Status">Transaction Status</th>
+                        <th *ngIf="mandatoryColumns.includes('Transaction Amount')" id="Transaction Amount">Transaction Amount</th>
+                        <th *ngIf="mandatoryColumns.includes('Transaction Charge')" id="Transaction Charge">Transaction Charge</th>
+                        <th *ngIf="mandatoryColumns.includes('Primary Account Number')" id="Primary Account Number">Primary Account Number</th>
+                        <th *ngIf="mandatoryColumns.includes('Processing Code')" id="Processing Code">Processing Code</th>
+                        <th *ngIf="mandatoryColumns.includes('Client Number')" id="Client Number">Client Number</th>
+                        <th *ngIf="mandatoryColumns.includes('Client Name')" id="Client Name">Client Name</th>
+                        <th *ngIf="mandatoryColumns.includes('Narration')" id="Narration">Narration</th>
+                        <th *ngIf="mandatoryColumns.includes('CreatedOn')" id="CreatedOn">CreatedOn</th>
+                        <th nzRight>Actions</th>
+                    </tr>
+                </thead>
+                <tbody nzSize="small">
+                    <tr *ngFor="let data of basicTable.data">
+                        <td *ngIf="mandatoryColumns.includes('ID')" id="ID">{{data.ID}}</td>
+                        <td *ngIf="mandatoryColumns.includes('ESB Reference ID')" id="ESB Reference ID">{{data.ESBREFID}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Service Name')" id="Service Name">{{data.SERVICENAME}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Channel Name')"  id="Channel Name">{{data.CHANNELNAME}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Channel Reference ID')" id="Channel Reference ID">{{data.CHANNELREFID}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Project Code')"  id="Project Code">{{data.PROJECTCODE}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Transaction Status')" id="Transaction Status">
+                            <app-success-label [labelValue]="data.TRANSACTIONRESPONSE"></app-success-label>
+                        </td>
+                        <td *ngIf="mandatoryColumns.includes('Transaction Amount')" id="Transaction Amount">{{data.TRANSACTIONAMOUNT | number:'.2-3'}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Transaction Charge')" id="Transaction Charge">{{data.TRANSACTIONCHARGEAMOUNT}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Primary Account Number')" id="Primary Account Number">{{data.PRIMARYACCOUNTNUMBER}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Processing Code')" id="Processing Code">{{data.PROCESSINGCODE}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Client Number')" id="Client Number">{{data.PAIDBYMOBILENUMBER}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Client Name')" id="Client Name">{{data.PAIDBY}}</td>
+                        <td *ngIf="mandatoryColumns.includes('Narration')" id="Narration">{{data.TRANSACTIONNARRATION}}</td>
+                        <td *ngIf="mandatoryColumns.includes('CreatedOn')" id="CreatedOn">{{data.CREATED_ON}}</td>
+                        <td nzRight>
+                            <button nz-button nzType="primary" nzSize="small" title="View Transaction" nzDanger nzGhost aria-describedby="View Transaction" (click)="viewTransaction(data)"><i nz-icon nzType="eye" nzTheme="outline"></i>&nbsp;View Transaction</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-card>
+        <ng-template #extraTemplate>
+            <!-- <span class="atma-default">Total: {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span *ngIf="pendingCount" class="atma-warning">Pending: {{pendingCount}}</span>&nbsp;&nbsp;
+            <span class="atma-success2">Successful: {{successCount}}</span>&nbsp;&nbsp;
+            <span class="atma-failed">Failed: {{failCount}}</span>&nbsp;&nbsp; -->
+            <button nz-button nzType="primary" nzSize="small" title="Select Columns to Display" aria-describedby="Select Columns to Display"><a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                Select Columns to Display
+                <i nz-icon nzType="down"></i>
+              </a></button>&nbsp;
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                <nz-checkbox-wrapper class="check-group" (nzOnChange)="selectedColumns($event)">
+                    <div nz-row nzJustify="start">
+                        <div *ngFor="let colm of displayColumns">
+                            <div *ngIf="mandatoryColumns.includes(colm); else nonchecked">
+                                <label  nz-checkbox nzValue="{{colm}}" class="wrapper-label" [ngModel]="true" nzSize="small">{{colm | slice:0:16}}</label>
+                            </div>
+                            <ng-template #nonchecked>
+                                <label  nz-checkbox nzValue="{{colm}}" class="wrapper-label" [ngModel]="false" nzSize="small">{{colm | slice:0:16}}</label>
+                            </ng-template>
+                        </div>
+                    </div>
+                </nz-checkbox-wrapper>
+                <div class="btn-nz">
+                </div>
+                </ul>
+            </nz-dropdown-menu>
+            <button *ngIf="selectionOnBool; else noSelection" nz-button nzType="primary" nzGhost nzSize="small" (click)="exportXLSX(dataToExport, 'transactions')" title="Export Transactions XLSX" aria-describedby="Export Transactions XLSX">XLSX</button>&nbsp;
+            <button nz-button nzType="primary" nzGhost nzDanger nzSize="small" (click)="exportTransactionsPDF()" title="Export Transactions to PDF" aria-describedby="Export Transactions to PDF">PDF</button>&nbsp;
+            <ng-template #noSelection>
+              <button nz-button nzType="primary" nzGhost nzSize="small" (click)="exportXLSX(dataToExport, 'transactions')" title="Export Transactions XLSX" aria-describedby="Export Transactions XLSX">XLSX</button>&nbsp;
+            </ng-template>
+            <!-- <button nz-button nzType="primary" nzDanger nzSize="small">PDF</button>&nbsp;
+            <button nz-button nzType="primary" nzGhost nzSize="small">CSV</button> -->
+        </ng-template>
+    </div>
+</div>

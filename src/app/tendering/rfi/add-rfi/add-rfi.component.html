@@ -1,0 +1,65 @@
+<h2 style="text-align: center;" class="mt-1">Generate New RFI</h2>  
+<div fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="35px">
+    <div fxFlex.gt-sm="60%" class="ma-1 pa-1">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="generateRfi()">
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">1. Category</nz-form-label> <br />
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                    <nz-select nzPlaceHolder="Please select category" formControlName="category" (ngModelChange)="getSubs($event)">
+                        <nz-option *ngFor="let option of categories" [nzLabel]="option.name" [nzValue]="option"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">2. Sub Caregory</nz-form-label>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                    <nz-select nzPlaceHolder="Please select sub-category" formControlName="subCategory">
+                        <nz-option *ngFor="let option of subCats" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">3. RFI Title</nz-form-label>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                  <nz-input-group>    
+                    <input type="text" nz-input formControlName="rfiTitle" placeholder="RFI Title" />
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired nzFor="nMW">4. Skills and Credentials you are looking for</nz-form-label>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="skills" placeholder="Skills and Credentials" />
+                    
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">5. Evaluation Criteria</nz-form-label>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                  <nz-input-group>
+                    <input type="text" nz-input formControlName="evaluationCriteriaId" placeholder="Evaluation Criteria" />
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">6. Deadline</nz-form-label>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Required!">
+                  <nz-input-group>
+                    <nz-date-picker formControlName="endDate" (ngModelChange)="onChange($event)"></nz-date-picker>
+                  </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nMW">7. Attach Documents</nz-form-label>
+            <nz-form-item>
+              <label for="file">Add Attachments</label> <br>
+              <input type="file" (change)="handleFiles($event)" class="file-input"  placeholder="KRA Certificate" required>
+            </nz-form-item>
+          </form>
+          <div style="text-align:center;">
+            <button nz-button (click)="generateRfi()" class="login-form-button login-form-margin" [nzType]="'primary'">GENERATE RFI</button>
+        </div>
+    </div>
+</div>
+

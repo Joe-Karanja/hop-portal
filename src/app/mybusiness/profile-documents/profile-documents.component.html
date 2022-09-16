@@ -1,0 +1,101 @@
+<div nz-row class="ma-1">
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="pa-1">
+      <nz-card style="width: 95%;" nzSize="large" nzTitle="KYC Document" nzSubTitle="cdc">
+          <div class="card">
+            <button nz-button class=" ma-1" (click)="getKycTemplate()"  nzType="link">
+              <mat-icon>download</mat-icon>
+              Download KYC Template
+            </button>
+            <button nz-button class=" ma-1" (click)="getKycTemplate()"  nzType="link">
+              <mat-icon>upload</mat-icon>
+              Upload KYC Document
+            </button>
+          </div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="pa-1">
+      <nz-card style="width: 95%;" nzSize="large" nzTitle="Certificate of Incorporation">
+        <div class="card" *ngIf="certOfIncorp != ''" >
+          <div class="item pa-1">
+            <button *ngIf="certOfIncorp != ''" nz-button (click)="openModal(certOfIncorp)" nzType="primary" >
+              view
+            </button>
+            <button *ngIf="certOfIncorp != ''" nz-button   nzType="link" >
+              update
+            </button>
+              <br>
+          </div>
+        </div>
+        <nz-form-item *ngIf="certOfIncorp == ''">
+          <div class="file-input">
+            <input type="file" (change)="handleCert($event)"  id="file" class="file" accept="application/pdf">
+            <label for="file" >Upload  </label>
+          </div>
+      </nz-form-item>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="pa-1">
+      <nz-card style="width: 95%;" nzSize="large" nzTitle="Company Directors">
+        <nz-table #basicTable [nzData]="directorsCerts" ngSize="small" [nzBordered]="false" [nzFrontPagination]="false" [nzLoading]="loading" nzShowSizeChanger [nzTotal]="total" [nzPageSize]="perPage" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead>
+            <tr>
+              <th>ID </th>
+              <th>KRA Certificate</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td >
+                <button  nz-button   nzType="link" (click)="openModal(data.idDocument)">  View</button>
+              </td>
+              <td>
+                <button  nz-button   nzType="link" (click)="openModal(data.kraPin)">  View</button>
+              </td>
+              
+              <td>
+                <button nz-button  nzType="link">
+                  <span  class="warning" style="color: red;">
+                    <mat-icon left>delete</mat-icon>
+                    Delete
+                </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <div fxLayout="row" fxLayoutAlign="center"  class="ma-1">
+          <button nz-button nzType="primary" nzShape="round" (click)="handleOk()" nzSize="large">Upload</button> 
+        </div> 
+      </nz-card>
+    </div>
+
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="pa-1">
+      <nz-card style="width: 95%;" nzSize="large" nzTitle="Annual Reports">
+        <div fxLayout="row" fxLayoutAlign="center"  class="ma-1">
+          <button nz-button nzType="primary" nzShape="round" nzSize="large" >Upload</button>
+        </div>  
+      </nz-card>
+    </div>
+  </div>
+
+  <nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()"
+   nzCentered  (nzOnOk)="addDirectorDocs()" nzWidth="30%"  [nzStyle]="{ top: '20px' }" 
+   style="margin: 20px;" nzTitle="Upload Direcors ID card and KRA Certificate">
+    <ng-container *nzModalContent>
+      <form nz-form [nzLayout]="'inline'" [formGroup]="directorsForm" (ngSubmit)="addDirectorDocs()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input your username!">
+            <div class="file-input">
+              <input type="file" (change)="handleID($event)"  id="file" class="file" accept="application/pdf">
+              <label for="file" >{{idName}}</label>
+            </div>
+            <div class="file-input">
+              <input type="file"  (change)="handleKra($event)"  id="file1" class="file" accept="application/pdf">
+              <label for="file1" >{{kraName}}</label>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>

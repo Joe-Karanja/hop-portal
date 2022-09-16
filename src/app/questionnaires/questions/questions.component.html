@@ -1,0 +1,58 @@
+<div *ngIf="loading" class="spinner">
+    <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<div class="card-container">
+    <nz-tabset  class="mx-3 pa-2" nzType="card">
+        <h2>Questions</h2>
+
+        <nz-tab *ngFor="let panel of data"  [nzTitle]="panel.name" (nzClick)="changeContent(panel, null)">
+            <ng-template nz-tab>
+                <nz-demo-tab-content-lazy>
+                    <div fxFlex.gt-sm="90%" fxFlex.gt-xs="90%" fxFlex="100%">
+                        <nz-card nzTitle="" [nzExtra]="extraTemplate" nzSize="large" *ngIf="questions.length > 0 && !loading">
+                            <nz-table [nzBordered]="false" #basicTable nzSize="small" [nzData]="questions" [nzLoading]="loading">
+                                <thead>
+                                    <tr>
+                                        <th>Question</th>
+                                        <th>Question Type</th>
+                                        <th>CreatedOn</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of basicTable.data">
+                                        <td>{{data.question}}</td>
+                                        <td>{{data.questionType}}</td>
+                                        <td>{{data.createdOn}}</td>
+                                        <td>
+                                            <button nz-button nzSize="small"  
+                                            [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                                            Actions
+                                            </button>
+                                            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                                                <button mat-menu-item  title="Edit Template" aria-describedby="Edit Template" (click)="triggerModal(data, false)">
+                                                    <mat-icon>edit</mat-icon>Edit
+                                                </button>
+                                                <button mat-menu-item  title="Edit Template" aria-describedby="Delete Template" (click)="delete(data)">
+                                                    <mat-icon>delete</mat-icon>Delete
+                                                </button>
+                                            </mat-menu>
+                                        </td>
+                                    </tr> 
+                                </tbody>
+                            </nz-table>
+                        </nz-card>
+                        <div class="ma-1">
+                            <nz-card *ngIf="!loading && questions.length == 0" [nzExtra]="extraTemplate" [loading]="loading">
+                                No questions for this category
+                            </nz-card>
+                        </div>
+                        <ng-template #extraTemplate>
+                            <button nz-button nzType="primary" (click)="triggerModal('', true)"><mat-icon></mat-icon>&nbsp;Add Question</button>
+                        </ng-template>
+                    </div>
+                </nz-demo-tab-content-lazy>
+            </ng-template>
+        </nz-tab>
+      </nz-tabset>
+</div>

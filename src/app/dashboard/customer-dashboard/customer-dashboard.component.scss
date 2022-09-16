@@ -1,0 +1,14 @@
+.textFont {
+    & p {
+        color: white;
+    }
+    & h2 {
+        color: white;
+    }
+    & mat-icon {
+        color: rgb(236, 228, 228);
+    }
+    &.iconify {
+        color: rgb(236, 228, 228);
+    }
+}

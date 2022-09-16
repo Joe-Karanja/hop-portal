@@ -1,0 +1,78 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="Invoices" nzSize="large">
+        <nz-table #basicTable  nzSize="small"  [nzData]="data" [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead style="font-weight: bold;">
+            <tr>
+                <th></th>
+                <th>Invoice Number</th>
+                <th>Payment Method</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Generated On</th>
+                <th>Action</th>
+            </tr>
+          </thead>
+          <tbody >
+                <ng-container *ngFor="let data of basicTable.data" class="pa-1">
+                    <tr class="ma-1">
+                        <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+                        <td>{{data.code}}</td>
+                        <td>{{data.payment}}</td>
+                        <td>{{data.amount}}</td>
+                        
+                        <td><nz-tag [nzColor]="'green'">{{data.status}}</nz-tag></td>
+                        <td>{{data.date}}</td>
+                        <td>
+                          <button nz-button nzSize="large" nzType="primary"
+                          [matMenuTriggerFor]="menu">
+                          Actions &nbsp; 
+                          <mat-icon>expand_more</mat-icon>
+                          </button>
+                          
+                        </td>
+                    </tr>
+                    <tr [nzExpand]="expandSet.has(data.id)" >
+                        <nz-table #innerTable [nzData]="data.quoteItems" nzSize="small" [nzShowPagination]="false" class="ma-3">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Budget</th>
+                                    <th>Total</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of innerTable.data">
+                                    <td>{{data.name}}</td>
+                                    <td>{{ data.quantity}}</td>
+                                    <td>{{data.budget}}</td>
+                                    <td>
+                                        <nz-tag [nzColor]="'green'">{{data.quantity * data.budget}}</nz-tag>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div fxLayout="row" fxLayoutAlign="center"  class="ma-1 mr-2 pr-3">
+                            <br>
+                            <div class="item">
+                                Grand Total: <b style="font-size: 18px;">42000</b>
+                            </div>
+                        </div> 
+                    </tr>
+                </ng-container>
+          </tbody>
+        </nz-table>
+      </nz-card>
+      
+    </div>
+</div>
+<!-- <nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()"
+   nzCentered  (nzOnOk)="updateStatus()" nzWidth="30%"  [nzStyle]="{ top: '20px' }" 
+   style="margin: 20px;" nzTitle="Update Order Status">
+    <ng-container *nzModalContent>
+      
+    </ng-container>
+  </nz-modal> -->

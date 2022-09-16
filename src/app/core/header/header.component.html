@@ -1,0 +1,51 @@
+<mat-toolbar class="main-header" style="background-color: rgb(245, 245, 245); color: white;">
+  <button (click)="toggleSidenav.emit()" mat-icon-button>
+    <mat-icon style="color: grey;">menu</mat-icon>
+  </button>
+  <div class="branding">
+    <img src="assets/images/logo.png" width="90px" height="60px">
+  </div>
+  <div class="search-bar" fxFlex>
+    <h2 style="text-align: center; color: rgb(82, 90, 105); font-weight: bold; font-size: 24px;"> House Of Procurement</h2>
+  </div>
+  <button (click)="goBack()" mat-icon-button class="ml-xs overflow-visible" title="Go back to previous page" aria-describedby="Go back to previous page">
+    <mat-icon style="color: grey;">fast_rewind</mat-icon>
+  </button>
+  <button (click)="fullScreenToggle()" mat-icon-button>
+    <mat-icon style="color: grey;">fullscreen</mat-icon>
+  </button>
+  <button *ngIf="len; else stagedItems" (click)="toggleNotificationSidenav.emit()" mat-icon-button class="ml-xs overflow-visible">
+    <mat-icon style="color: grey;">notifications</mat-icon> 
+    <span><app-get-notification-len (newLength)="getNotificationsLength()"></app-get-notification-len></span>
+  </button>
+  <ng-template #stagedItems>
+    <button mat-icon-button class="ml-xs overflow-visible">
+      <mat-icon style="color: grey;">notifications</mat-icon>
+      <span *ngIf="len">{{len}}</span>
+    </button>
+  </ng-template>
+  <button [matMenuTriggerFor]="user" mat-icon-button class="ml-xs">
+    <mat-icon style="color: grey;">person</mat-icon>
+    <span class="notification-labelUser"></span>
+  </button>
+  
+  <mat-menu #user="matMenu" x-position="before">
+    <button mat-menu-item (click)="viewProfile()">
+      <mat-icon style="color: grey;">account_box</mat-icon>
+      My Profile
+    </button>
+    <button mat-menu-item (click)="passwordReset()">
+      <mat-icon>backspace</mat-icon>
+      Change Password
+    </button>
+    <!-- <button mat-menu-item>
+      <mat-icon>notifications_off</mat-icon>
+      Disable notifications
+    </button> -->
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      Sign Out
+    </button>
+    
+  </mat-menu>
+</mat-toolbar>

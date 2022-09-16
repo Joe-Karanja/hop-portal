@@ -1,0 +1,86 @@
+<div *ngIf="loading" class="spinner">
+    <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+  <div>
+            <div nz-row class="ma-2">
+                <div nz-col nzSpan="12" fxLayout="row" fxLayoutAlign="center" class="mt-2">
+                    <nz-card class="ma-2" nzTitle="Product Categories" style="width:100%;" [nzExtra]="addType" nzSize="large" [nzLoading]="loading">
+                        <nz-table [nzBordered]="false" #basicTable nzSize="small" [nzData]="data" [nzLoading]="loading">
+                            <thead>
+                                <tr>
+                                    <th>Business Type</th>
+                                    <th>CreatedOn</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of basicTable.data">
+                                    <td>{{data.name }}</td>
+                                    <td>{{data.createdOn }}</td>
+                                    <td>
+                                        <button nz-button nzSize="small"  
+                                        [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                                        Actions
+                                        </button>
+                                        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                                            <!-- <button mat-menu-item  title="Edit Category" aria-describedby="Edit Template" (click)="editSMSTemplate(data)">
+                                                <mat-icon>edit</mat-icon>Edit
+                                            </button> -->
+                                            <button mat-menu-item  title="Deactivate Category" aria-describedby="Edit Template" (click)="deleteCat(data)">
+                                                <mat-icon>delete</mat-icon>Deactivate
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </nz-card>
+                    <ng-template #addType>
+                        <button nz-button nzType="primary" (click)="triggerModal('')">Add Product Category</button>
+                    </ng-template>
+                </div>
+                <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="mt-2">
+                    <nz-card class="ma-2" nzTitle="Product Sub-Categories" [nzExtra]="addSubType" nzSize="large" style="width: 100%;" [nzLoading]="loading">
+                        <nz-table [nzBordered]="false" #typesTable nzSize="small" [nzData]="subTypes" [nzLoading]="loading">
+                            <thead>
+                                <tr>
+                                    <th>Business SubSector</th>
+                                    <th>CreatedOn</th>
+                                    <th>Creator</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of typesTable.data">
+                                    <td>{{data.name }}</td>
+                                    <td>{{data.createdOn }}</td>
+                                    <td>{{data.createdBy }}</td>
+                                    <td>
+                                        <button nz-button nzSize="small"  
+                                        [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                                        Actions
+                                        </button>
+                                        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                                            <!-- <button mat-menu-item  title="Edit Category" aria-describedby="Edit Template" (click)="editSMSTemplate(data)">
+                                                <mat-icon>edit</mat-icon>Edit
+                                            </button> -->
+                                            <button mat-menu-item  title="Deactivate Category" aria-describedby="Edit Template" (click)="deleteCat(data)">
+                                                <mat-icon>delete</mat-icon>Deactivate
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </nz-card>
+                    <ng-template #addSubType>
+                        <button nz-button nzType="primary" (click)="triggerSubModal('')">Add SubCategory</button>
+                    </ng-template>
+                </div>
+                
+            </div>
+            
+        
+        
+</div>
+  

@@ -1,0 +1,91 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+    <div fxFlex="50.00%">
+        <nz-card class="cardMin" nzTitle="{{workflow.name | titlecase}} Workflow" nzSize="large" [nzLoading]="loading">
+            <nz-row nzSize="large">
+                <nz-col [nzSpan]="10">
+                    <h5 class="text-uppercase font-weight-bold"><b>Status:</b></h5>&nbsp;
+                </nz-col>
+                <nz-col [nzSpan]="14">
+                    <app-active-label [labelValue]="workflow.isActive"></app-active-label>
+                </nz-col>
+            </nz-row>
+            <nz-row nzSize="large">
+                <nz-col [nzSpan]="10">
+                    <h5 class="text-uppercase font-weight-bold"><b>Description:</b></h5>&nbsp;
+                </nz-col>
+                <nz-col [nzSpan]="14">
+                    <h5>{{workflow.remarks | titlecase}}</h5>
+                </nz-col>
+            </nz-row>
+            <nz-row nzSize="large">
+                <nz-col [nzSpan]="10">
+                    <h5 class="text-uppercase font-weight-bold"><b>Created On:</b></h5>&nbsp;
+                </nz-col>
+                <nz-col [nzSpan]="14">
+                    <h5>{{workflow.createdOn}}</h5>
+                </nz-col>
+            </nz-row>
+        </nz-card>
+    </div>
+    <div fxFlex="50.00%">
+        <nz-card nzTitle="{{workflow.name | uppercase}}&nbsp; STEPS" [nzExtra]="extraTemplate" [nzLoading]="loading">
+            <mat-vertical-stepper [linear]="viewLinear" #stepper>
+                <div *ngFor="let step of workflowSteps">
+                    <mat-step [stepControl]="step">
+                        <ng-template matStepLabel>{{step.stepName | uppercase}}</ng-template>
+                        <mat-list class="listWidth">
+                            <mat-card-content>
+                                <div fxLayout="row">
+                                    <div fxFlex="50">
+                                        <h5 class="text-uppercase font-weight-bold"><b>Step Name:</b></h5>  
+                                    </div>
+                                    <div fxFlex="50">
+                                        <h5>{{step.stepName | titlecase}}</h5>
+                                    </div>
+                                </div>
+                                <div fxLayout="row">
+                                    <div fxFlex="50%">
+                                        <h5 class="text-uppercase font-weight-bold"><b>Description:</b></h5>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <h5>{{step.remarks | titlecase}}</h5>
+                                    </div>
+                                </div>
+                                <div fxLayout="row">
+                                    <div fxFlex="50%">
+                                        <h5 class="text-uppercase font-weight-bold"><b>Authorised Role:</b></h5>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <h5>{{step.roles.name | titlecase}}</h5>
+                                    </div>
+                                </div>
+                                
+                                <div fxLayout="row">
+                                    <div fxFlex="50">
+                                        <h5 class="text-uppercase font-weight-bold"><b>Final Status:</b></h5>
+                                    </div>
+                                    <div fxFlex="50">
+                                        <div *ngIf="step.isFinal == 1; else disabledFinal">
+                                            <button nz-button nzType="primary" nzSize="small">TRUE</button>
+                                        </div>
+                                        <ng-template #disabledFinal>
+                                            <button nz-button nz-Type="primary" nzSize="small" nzDanger>FALSE</button>
+                                        </ng-template>
+                                    </div>
+                                </div> 
+                                <div fxlayout="row">
+                                    <button nz-button nzType="primary" (click)="editStep(workflow, step)"><mat-icon>edit</mat-icon>&nbsp;Edit Workflow Step</button>
+                                </div>
+                            </mat-card-content>
+                        </mat-list>
+                    </mat-step>
+                </div>
+            </mat-vertical-stepper>
+        </nz-card>
+        
+        <ng-template #extraTemplate>
+            <button nz-button nzType="primary" (click)="triggerModal('')"><mat-icon>add</mat-icon>&nbsp;Add Workflow Step</button>
+        </ng-template>
+        
+    </div>
+</div>

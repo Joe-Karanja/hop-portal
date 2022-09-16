@@ -1,0 +1,115 @@
+.atma-background {
+    background-color: #ffdb26; 
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    z-index:1000;
+}
+mat-card {
+    align-self: center;
+    width: 750px;
+    height: 750px;
+    position: absolute; /*Can also be `fixed`*/
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+.summary {
+    text-align: center;
+}
+
+.summary h2 {
+    font-size: 26px;
+}
+
+.summary p {
+    font-size: 22px;
+    margin-top: 15px;
+}
+.summary span {
+    font-size: 16px;
+    margin: 15px;
+    color: rgb(112, 112, 112);
+}
+
+button {
+    margin: 10px;
+}
+
+img {
+    margin: 10px;
+}
+span {
+    margin-top: 10px;
+    padding:10px;
+    align-self: center;
+}
+.text-muted {
+    color: rgb(190, 190, 190);
+    font-size: 12px;
+}
+.mat-stepper-horizontal {
+    margin-top: 8px;
+}
+
+h2 {
+    color: rgb(90, 90, 90);
+    font-size: 17px;
+    margin-top: 10px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+.title {
+    font-size: 18px;
+    text-align: center;
+    font-weight:bold;
+    color: rgb(90, 90, 90);
+}
+mat-grid-tile {
+    margin: 0px;
+}
+mat-form-field {
+    width: 80%;
+    margin-left:10px;
+    margin: 10px;
+}
+mat-checkbox  {
+    padding: 10px;
+}
+  
+.file, .file1, .file2 {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.file-input label {
+    display: block;
+    position: relative;
+    width: 250px;
+    height: 50px;
+    border-radius: 25px;
+    background: linear-gradient(40deg, #4772ff, #2d8fff);
+    box-shadow: 0 4px 7px rgba(0, 64, 138, 0.247);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease-out;
+}
+
+input:focus + label {
+    outline: 1px solid rgb(255, 247, 101);
+    outline: -webkit-focus-ring-color auto 2px;
+
+  }

@@ -1,0 +1,127 @@
+<h2 style="text-align: center;" class="mt-1">Generate New RFQ</h2>  
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="35px">
+    <div fxFlex.gt-sm="70%" fxFlex.gt-xs="90%" class="steps-content">
+        <div class="header mt-1 pa-1">
+            <nz-steps [nzCurrent]="current">
+                <nz-step nzTitle=""></nz-step>
+                <nz-step nzTitle=""></nz-step>
+            </nz-steps>
+        </div>
+        <div class="" *ngIf="index === 1">
+            <form nz-form [formGroup]="validateForm" class="login-form pa-2" >
+                <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired nzFor="nMW">1. Category</nz-form-label> <br />
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                        <nz-select nzPlaceHolder="Please select category" formControlName="category">
+                            <nz-option *ngFor="let option of categories" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="12" nzRequired nzFor="nMW">2. Sub Caregory</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                        <nz-select nzPlaceHolder="Please select sub-category" formControlName="subCategory">
+                            <nz-option *ngFor="let option of subCats" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="12" nzRequired nzFor="nMW">3. RFQ Title</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>    
+                        <input type="text" nz-input formControlName="title"  placeholder="RFQ Title" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="12" nzRequired nzFor="nMW">4. Goals and Background</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>    
+                        <input type="text" nz-input formControlName="goals" placeholder="Goals and background" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="12" nzRequired nzFor="nMW">5. Supplier Instructions</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                      <nz-input-group>    
+                        <input type="text" nz-input formControlName="instructions" placeholder="Instructions" />
+                      </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-label [nzSm]="12" [nzXs]="12" nzRequired nzFor="nMW">6. RFQ Type</nz-form-label>
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Required!">
+                        <nz-select nzPlaceHolder="RFQ Type" formControlName="rfqType">
+                            <nz-option *ngFor="let option of types" [nzLabel]="option.name" [nzValue]="option.name" ></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+              </form>
+        </div>
+        <!-- ste 2
+        adding products to rfq -->
+
+        <div class="step2 pa-2" *ngIf="index === 2" >
+          <div fxLayout="row" fxLayoutAlign="end"  class="ma-1 mr-3 pr-3">
+            <button nz-button class="" nzType="primary" (click)="addProducts()">
+              <span>
+                <mat-icon left>add</mat-icon>
+                Add Item
+              </span>
+            </button>
+          </div> 
+            <nz-table #basicTable [nzData]="quoteItems"  nzSize="small"  [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+            <thead style="font-weight: bold;">
+              <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Budget</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data; index as i">
+                <td>{{data.name}}</td>
+                <td>
+                  {{ data.quantity}}
+                </td>
+                <td>
+                  {{data.budget}}
+                </td>
+                <td>
+                  {{data.quantity * data.budget}}
+                </td>
+                <td>
+                    <!-- <button nz-button nzSize="small"  nzType="link" (click)="viewSupplier()">Edit</button> -->
+                    <button nz-button nzSize="small"  nzType="link" (click)="removeItem(i)"> 
+                      <span  class="warning" style="color: red;">
+                        <mat-icon left>delete</mat-icon>
+                        Delete
+                    </span>
+                    </button>
+                </td>
+              </tr>
+              <div fxLayout="row" fxLayoutAlign="start"  class="ma-1">
+                  Sub Total: Kes. 42000 <br>
+                  Grand Total: Kes. 42000
+              </div> 
+            </tbody>
+          </nz-table>
+        </div>
+          <div class="steps-action">
+            <div fxLayout="row" fxLayoutAlign="end"  class="ma-1 mr-3 pr-3">
+              <button nz-button nzType="default" (click)="pre()" *ngIf="index > 1">
+                <span>Back</span>
+              </button>
+              <button nz-button nzType="primary" (click)="next()" *ngIf="index < 2" [disabled]="!validateForm.valid">
+                <span>Next</span>
+              </button>
+              <button nz-button nzType="primary" (click)="done()" *ngIf="index === 2">
+                <span>Generate RFQ</span>
+              </button>
+            </div> 
+            
+        </div>
+    </div>
+</div>

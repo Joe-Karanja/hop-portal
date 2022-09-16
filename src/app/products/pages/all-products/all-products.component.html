@@ -1,0 +1,103 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="mt-2">
+    <!-- <div fxFlex.gt-sm="25%" class="" >
+        
+    </div> --> 
+    <!-- <div fxFlex.gt-sm="20%" class="center center ma-2">
+        <nz-affix nzOffsetTop="100">
+            <nz-card nzCard class="pa-0">
+                <h3 style="text-align:center" class="ma-0 pa-0">
+                    <span >
+                        <mat-icon>filter_list</mat-icon>
+                        Filters
+                    </span>
+                </h3>
+                <form nz-form [formGroup]="validateForm" class="login-form">
+                    <nz-form-label  class="ma-0 pa-0" [nzSm]="12" [nzXs]="24"  nzFor="nMW">Category</nz-form-label>
+                    <nz-form-item class="ma-0 pap-0">
+                        <nz-form-control nzErrorTip="Product Category Required!">
+                            <nz-select nzPlaceHolder="Please select category" formControlName="categoryName">
+                                <nz-option *ngFor="let option of cats" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-label class="ma-0 pa-0" [nzSm]="12" [nzXs]="24"  nzFor="nMW">Sub Caregory</nz-form-label>
+                    <nz-form-item class="ma-0 pa-0">
+                        <nz-form-control nzErrorTip="Product Sub Category Required!">
+                            <nz-select nzPlaceHolder="Please select sub-category" formControlName="subCategoryName">
+                                <nz-option *ngFor="let option of subCats" [nzLabel]="option.name" [nzValue]="option.name"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+                <div fxLayout="row" fxLayoutAlign="end"  class="ma-1 mr-3 pr-3">
+                    <button nz-button class="" nzSize="small"  nzType="primary" >
+                      <span>
+                        <mat-icon left>filter_list</mat-icon>
+                        Filter Category
+                      </span>
+                    </button>
+                  </div> 
+            </nz-card>
+    </div> -->
+    <div fxFlex.gt-sm="90%" class="center center ma-2">
+        <form nz-form [nzLayout]="'inline'" fxLayout="row" fxLayoutAlign="end" [formGroup]="validateForm" (ngSubmit)="submitForm()" class="ma-1 pa-1">
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Required!">
+                <nz-input-group >
+                    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzPlaceHolder]="'Filter from'"></nz-date-picker>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Required!">
+                <nz-input-group >
+                    <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzPlaceHolder]="'Filter to'"></nz-date-picker>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="link" >Filter</button>
+              </nz-form-control>
+            </nz-form-item>
+        </form>
+        <nz-table [nzBordered]="false" #basicTable nzSize="large" [nzData]="products" [nzLoading]="loading" nzTitle="Products">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Price</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.productCode}}</td>
+                    <td>{{data.productName}}</td>
+                    <td>{{data.categoryName}}</td>
+                    <td>{{data.subCategoryName}}</td>
+                    <td>{{data.productPrice}}</td>
+                    <td>{{data.createdOn}}</td>
+                    <td>
+                        <button nz-button nzSize="small"  
+                        [matMenuTriggerFor]="menu" nzType="primary" nzGhost><mat-icon>settings</mat-icon>
+                        Actions
+                        </button>
+                        <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                            <button mat-menu-item  title="Edit Template" aria-describedby="Edit Template" (click)="triggerModal(data, false)">
+                                <mat-icon>edit</mat-icon>Edit
+                            </button>
+                            <button mat-menu-item  title="Edit Template" aria-describedby="Delete Template" (click)="delete(data)">
+                                <mat-icon>delete</mat-icon>Delete
+                            </button>
+                        </mat-menu>
+                    </td>
+                </tr> 
+            </tbody>
+        </nz-table>
+    </div>
+    
+</div>

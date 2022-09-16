@@ -1,0 +1,20 @@
+<mat-tab-group [selectedIndex]="1" mat-stretch-tabs>
+  <mat-tab>
+    <ng-template matTabLabel>{{ today | date:'EEEE' }},&nbsp;<span>{{ today | date:'dd' }}</span>&nbsp;<span>{{ today | date:'MMMM' }}</span></ng-template>
+    <div class="scroll">
+      <nz-list nzItemLayout="vertical">
+        <nz-list-item class="list-hover" *ngFor="let item of stagedArray" style="margin-left: 10px;" (click)="viewDetails(item)">
+          <nz-list-item-meta>
+            <nz-list-item-meta-title>
+              <p class="mat-text-muted text-md headerT"><b>{{item.workflowName}}</b>&nbsp;</p>
+            </nz-list-item-meta-title>
+            <nz-list-item-meta-description>
+              <p class="mat-text-muted text-md" style="word-wrap: break-word;"><b>Created By:</b>&nbsp;{{item.createdBy}}</p>
+              <p class="mat-text-muted text-md"><b>Created On:</b>&nbsp;{{item.createdOn}}</p>
+            </nz-list-item-meta-description>
+          </nz-list-item-meta>
+        </nz-list-item>
+      </nz-list>
+    </div>
+  </mat-tab>
+</mat-tab-group>

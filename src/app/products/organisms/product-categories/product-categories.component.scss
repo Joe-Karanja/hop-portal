@@ -1,0 +1,17 @@
+.content {
+    width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+}
+
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .button {
+    // max-width: 200px;
+    justify-content: center;
+  }

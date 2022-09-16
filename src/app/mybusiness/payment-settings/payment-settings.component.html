@@ -1,0 +1,32 @@
+<div nz-row class="ma-1 row">
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center center" >
+        <button class="card" (click)="changeToPOD($event)">
+            <h1>POD</h1>
+            <span class="cardDesc">Payment On Delivery</span>
+        </button>
+        <button class="card" (click)="changeToPOO($event)">
+            <h1>POO</h1>
+            <span class="cardDesc">Payment On Order</span>
+        </button>
+    </div>
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center center" >
+        <div class="PODActive" *ngIf="PODActive">
+            <h3>POD (Payment On Delivery)</h3>
+            <p class="pDesc">Payment on delivery Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                 Iste, dignissimos similique? Ducimus eum, repudiandae totam consequuntur libero
+                 <br>
+                 <br>
+                 architecto aliquid inventore quia excepturi ipsam sunt, perspiciatis dolores reiciendis esse temporibus! Ea?
+            </p>
+        </div>
+        <div class="POOActive" *ngIf="POOActive">
+            <h3>POO (Payment On Order)</h3>
+            <p class="pDesc">Payment On Order Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Iste, dignissimos similique? Ducimus eum, repudiandae totam consequuntur libero
+                <br>
+                <br>
+                architecto aliquid inventore quia excepturi ipsam sunt, perspiciatis dolores reiciendis esse temporibus! Ea?
+           </p>
+        </div>
+    </div>
+</div>

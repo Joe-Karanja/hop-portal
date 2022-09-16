@@ -1,0 +1,19 @@
+<nz-card [nzBordered]="false" nzTitle="{{cardTitle}}" [nzExtra]="extraTemplate" [nzActions]="[actionAdd]">
+    <p *ngIf="errorMessage" class="text-danger">{{erroMessage}}</p>
+    <p *ngIf="editEmailBool" class="text-danger">{{warningMessage}}</p>
+    <form nz-form [formGroup]="form">
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="template">Category</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="This field is required">
+                <input rows="7" cols="14" nz-input formControlName="name" id="template"/>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-card>
+<ng-template #extraTemplate>
+    <button mat-mini-fab aria-label="close dialog" title="close dialog" class="atma-danger" (click)="close()"><mat-icon>close</mat-icon></button>
+</ng-template>
+<ng-template #actionAdd>
+    <button *ngIf="addCatBool" nz-button nzType="primary" (click)="submitData()" [nzLoading]="loading" [disabled]="loading">Add Category</button>
+    <button *ngIf="!addCatBool" nz-button nzType="primary" (click)="editCategory()" [nzLoading]="loading" [disabled]="loading">Update Category</button>
+</ng-template>

@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-subtitle fxLayout="center" fxLayoutAlign="center center">
+        <mat-icon>assessment</mat-icon>Transactions Value Trend by Integrations &nbsp;
+        <span fxFlex></span>
+        <nz-select nzPlaceHolder="Select Project" nz-menu [(ngModel)]="selectedProject" (ngModelChange)="viewSingleProjectDetails($event)" nzShowSearch=true>
+          <nz-option nzLabel="All" nzValue="All">All</nz-option>
+          <nz-option *ngFor="let project of availableProjects" nzLabel="{{project.PROJECT_NAME}}" nzValue="{{project.PROJECT_ABBREVIATION}}" nz-menu-item>
+            {{project.PROJECT_NAME}}
+          </nz-option>
+        </nz-select>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <div>
+            <canvas id="integrationsCanvas" baseChart class="chart" height="200"></canvas>
+        </div>
+      </mat-card-content>
+</mat-card>
+
+

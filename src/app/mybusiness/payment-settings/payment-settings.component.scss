@@ -1,0 +1,47 @@
+.card {
+    border: 3px dashed rgb(165, 181, 246);;
+    background-color: rgba(255, 253, 244, 0.841);
+    transition: 0.3s;
+    border-radius: 10px; /* 5px rounded corners */
+    padding: 10px;
+    padding-top: 10px;
+    margin: 20px;
+    width: 80%;
+    min-height: 120px;
+    text-align: center;
+}
+
+.card:hover {
+    background-color: rgb(255, 240, 173);
+    box-shadow: 0 8px 16px 0 rgba(57, 55, 105, 0.2);
+}
+h1 {
+    font-weight: 600;
+    font-size: 22px;
+    color: rgb(40, 46, 69);
+}
+h3 {
+    font-weight: 600;
+    font-size: 22px;
+    color: rgb(46, 51, 70);
+    text-align: center;
+}
+
+.pDesc {
+    font-weight: 400;
+    word-spacing: 3px;
+    font-size: 15px;
+    color: rgb(62, 65, 77);
+    margin: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.cardDesc {
+    margin-bottom: 10px;
+    font-weight: 400;
+    word-spacing: 4px;
+    font-size: 15px;
+    color: rgb(62, 65, 77);
+    margin: 20px;
+}

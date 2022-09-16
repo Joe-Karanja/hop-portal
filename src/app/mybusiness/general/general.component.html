@@ -1,0 +1,37 @@
+<div *ngIf="loading" class="spinner">
+  <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<div>
+  <nz-tabset class="ma-1 pa-2" > 
+    <nz-tab nzTitle="Business Details" >
+      <app-profile-basic [idBusiness]="idBusiness" (open)="open($event)"></app-profile-basic>
+    </nz-tab>
+    <!-- <nz-tab nzTitle="Business Users">
+      <app-profile-users [idBusiness]="idBusiness"></app-profile-users>
+    </nz-tab>  -->
+    <nz-tab nzTitle="Business Documents">
+      <app-profile-documents [idBusiness]="idBusiness" (open)="open($event)"></app-profile-documents>
+    </nz-tab> 
+    <nz-tab nzTitle="Payment Settings"  >
+      <app-payment-settings></app-payment-settings>
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+<!-- view pdf -->
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" nzWidth="80%"  [nzStyle]="{ top: '20px' }" style="margin: 20px;" >
+  <ng-container *nzModalContent>
+    <div class="m-4 pt-5">
+      <ngx-extended-pdf-viewer
+      [(base64Src)]="docBase64"
+      backgroundColor="#ffffff"
+      [height]="'90vh'"
+      [useBrowserLocale]="true"
+      [handTool]="false"
+      [showHandToolButton]="true"
+    >
+    </ngx-extended-pdf-viewer>
+    </div>
+  </ng-container>
+</nz-modal>
+<!-- end of pdf -->

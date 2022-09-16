@@ -1,0 +1,105 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="RFQs" nzSize="large">
+        <nz-table #basicTable [nzData]="data" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead style="font-weight: bold;">
+            <tr>
+                <th></th>
+                <th>Ref Number</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>no. of suppliers</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr>
+                <td [(nzExpand)]="expand"></td>
+                <td>{{data.rfiCode}}</td>
+                <td>{{data.title | titlecase}}</td>
+                <td>{{data.category}}</td>
+                <td>{{data.subCategory | titlecase}}</td>
+                <td>{{data.noOfSuppliers}}</td>
+                <td>{{data.createdOn}}</td>
+                <td>{{data.dueDate}}</td>
+            </tr>
+            <tr [nzExpand]="expand">
+                <nz-table #innerTable [nzData]="quoteItems" nzSize="small" [nzShowPagination]="false" class="ma-3">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Budget</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of innerTable.data">
+                            <td>{{data.name}}</td>
+                            <td>{{ data.quantity}}</td>
+                            <td>{{data.budget}}</td>
+                            <td>
+                                <nz-tag [nzColor]="'green'">{{data.quantity * data.budget}}</nz-tag>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <div fxLayout="row" fxLayoutAlign="center"  class="ma-1 mr-2 pr-3">
+                    <br>
+                    <div class="item">
+                        Grand Total: <b style="font-size: 18px;">42000</b>
+                    </div>
+                </div> 
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+      
+    </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="end"  class="ma-1 mr-3 pr-3">
+  
+</div> 
+
+<div fxLayout="row wrap" fxLayoutAlign="center center" class="mt-3">
+    <div fxFlex.gt-sm="90.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+      <nz-card  [nzBordered]="true" nzTitle="Suppliers" nzSize="large">
+        <nz-table #supplierTable [nzData]="sets" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+          <thead style="font-weight: bold;">
+            <tr>
+              <th>#</th>
+              <th>Supplier name</th>
+              <th>Location</th>
+              <th>Payment Terms</th>
+              <th>CreatedOn</th>
+              <th>Delivery Time</th>
+              <th>Bid Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of supplierTable.data">
+              <td>{{data.id}}</td>
+              <td>{{data.name}}</td>
+              <td>{{data.location | titlecase}}</td>
+              <td>{{data.payment}}</td>
+              <td>{{data.createdOn}}</td>
+              <td>{{data.delivery | titlecase}}</td>
+              <td>
+                <nz-tag [nzColor]="'#87d068'">{{data.amount }}</nz-tag>
+              </td>
+              <td>
+                  <button nz-button nzSize="large"  nzType="primary" (click)="approve()">
+                    <mat-icon left >check</mat-icon>
+                    Approve Supplier
+                  </button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+</div>

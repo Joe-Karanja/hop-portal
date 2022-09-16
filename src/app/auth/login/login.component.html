@@ -1,0 +1,45 @@
+<div class="session atma-background">
+    <div class="session-content">
+      <div class="session-wrapper">
+        <mat-card>
+          <mat-card-content>
+            <form [formGroup]="form">
+              <div class="text-xs-center pb-1">
+                <img src="assets/images/logo.png" alt="" height="80px" width="120px" />
+                <p class="mat-text-muted">Sign in with your email and password</p>
+              </div>
+              <div fxLayout="row">
+                <p class="text-danger" *ngIf="errorMessage">{{errorMessage | titlecase}}</p>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="space-around">
+                <div class="pb-1">
+                  <mat-form-field style="width: 100%" appearance="fill">
+                    <input matInput placeholder="Email" formControlName="email" type="text">
+                  </mat-form-field>
+                  <small *ngIf="form.get('email').hasError('required') && form.get('email').touched" class="mat-text-warn">Email
+                    is required.</small>
+                </div>
+                <div class="pb-1">
+                  <mat-form-field style="width: 100%" appearance="fill">
+                    <input matInput type="password" placeholder="Enter Password" autocomplete="off" formControlName="password">
+                  </mat-form-field>
+                  <small *ngIf="form.get('password').hasError('required') && form.get('password').touched"
+                    class="mat-text-warn">Password is required.</small>
+                </div>
+                <button *ngIf="loading; else loaded" nzShape="round" nzSize="large" nz-button nzType="primary" (click)="login()" [nzLoading]="loading" type="submit" [disabled]="!form.valid && loading">Login</button>
+                <ng-template #loaded>
+                  <button nz-button nzShape="round"  nzSize="large" nzType="primary" (click)="login()" [nzLoading]="loading" type="submit" [disabled]="!form.valid">Login</button>
+                </ng-template>
+                <span>
+                  Do not have an account? <a routerLink="/auth/registration">  Register</a>
+                </span>
+                <!-- <span>
+                  <a routerLink="/auth/forgot-password">Forgot Password?</a>
+                </span> -->
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,120 @@
+<nz-tabset class="ma-2 pa-2" nzCentered>
+  <nz-tab nzTitle="NOT REPLIED">
+    <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <div fxFlex.gt-sm="100.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+          <nz-card  [nzBordered]="true" nzTitle="Government RFIs(2)" [nzExtra]="extraTemplate" nzSize="large">
+            <nz-table #notAppliedTable [nzData]="notApplied" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <th>#</th>
+                  <th>Ref Number</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Sub Category</th>
+                  <th>no. of suppliers</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of notAppliedTable.data" >
+                  <td>{{data.id}}</td>
+                  <td>{{data.rfiCode}}</td>
+                  <td>{{data.title | titlecase}}</td>
+                  <td>{{data.category}}</td>
+                  <td>{{data.subCategory | titlecase}}</td>
+                  <td>{{data.noOfSuppliers}}</td>
+                  <td>{{data.createdOn}}</td>
+                  <td>{{data.dueDate}}</td>
+                  <td>
+                      <span>
+                        <nz-tag *ngIf="data.status" nzColor="success">Replied</nz-tag>
+                        <nz-tag *ngIf="!data.status" nzColor="processing">Not Replied</nz-tag>
+                      </span>
+                  <td>
+                    <button nz-button nzSize="small"  nzType="link" (click)="toApplication()">
+                      Reply
+                    </button>
+                </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="exportWorkflowXLSX()">
+                    <mat-icon>file_copy</mat-icon>
+                    XLSX
+                </button>
+                <button mat-menu-item (click)="exportWorkflowPDF()">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    PDF
+                </button>
+            </mat-menu>
+          </ng-template>
+        </div>
+    </div>
+</nz-tab>
+    <nz-tab nzTitle="REPLIED">
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <div fxFlex.gt-sm="100.00%" fxFlex.gt-xs="100.00%" fxFlex="100%">
+              <nz-card  [nzBordered]="true" nzTitle="Government RFIs(2)" [nzExtra]="extraTemplate" nzSize="large">
+                <nz-table #appliedTable [nzData]="applied" nzSize="small"  [nzFrontPagination]="false"[nzLoading]="loading" [nzTotal]="total" [nzPageSize]="pageSize" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+                  <thead style="font-weight: bold;">
+                    <tr>
+                      <th>#</th>
+                      <th>Ref Number</th>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Sub Category</th>
+                      <th>no. of suppliers</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of appliedTable.data" >
+                      <td>{{data.id}}</td>
+                      <td>{{data.rfiCode}}</td>
+                      <td>{{data.title | titlecase}}</td>
+                      <td>{{data.category}}</td>
+                      <td>{{data.subCategory | titlecase}}</td>
+                      <td>{{data.noOfSuppliers}}</td>
+                      <td>{{data.createdOn}}</td>
+                      <td>{{data.dueDate}}</td>
+                      <td>
+                        <span>
+                          <nz-tag *ngIf="data.status" nzColor="success">Replied</nz-tag>
+                          <nz-tag *ngIf="!data.status" nzColor="processing">Not Replied</nz-tag>
+                        </span>
+                      <td>
+                        <button [disabled]="data.status" nz-button nzSize="small"  nzType="link" (click)="toApplication()">
+                          Reply
+                        </button>
+                    </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </nz-card>
+              <ng-template #extraTemplate>
+                <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button>
+                <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item (click)="exportWorkflowXLSX()">
+                        <mat-icon>file_copy</mat-icon>
+                        XLSX
+                    </button>
+                    <button mat-menu-item (click)="exportWorkflowPDF()">
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        PDF
+                    </button>
+                </mat-menu>
+              </ng-template>
+            </div>
+        </div>
+    </nz-tab>
+  </nz-tabset>

@@ -1,0 +1,15 @@
+<mat-card>
+    <mat-card-subtitle fxLayout="center" fxLayoutAlign="center center">
+      <mat-icon>assessment</mat-icon>Transactions Value Trend by Channels &nbsp;
+      <span fxFlex></span>
+      <nz-select nzPlaceHolder="Select Channel" nz-menu [(ngModel)]="selectedSingleChannel" (ngModelChange)="viewSingleChannelDetails($event)"  nzShowSearch=true>
+        <nz-option nzLabel="All" nzValue="All">All</nz-option>
+        <nz-option *ngFor="let channel of availableChannels" nzLabel="{{channel.CHANNEL_NAME}}" nzValue="{{channel.CONSUMER_KEY}}">{{channel.CHANNEL_NAME}}</nz-option>
+      </nz-select>
+    </mat-card-subtitle>
+    <mat-card-content>
+        <div>
+            <canvas id="sordersCanvas" baseChart class="chart" height="200"></canvas>
+        </div>
+    </mat-card-content>
+  </mat-card>

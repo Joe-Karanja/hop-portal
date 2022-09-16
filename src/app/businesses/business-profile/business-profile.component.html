@@ -1,0 +1,189 @@
+<div *ngIf="loading" class="spinner">
+  <nz-spin nzTip="Loading..." nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+<h1 class="ma-2 center" *ngIf="!loading">{{business.businessName}}</h1>
+<div nz-row class="ma-2">
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center center" class="mt-2 pa-1">
+        <nz-card style="width:100%;" nzTitle="Business Details" class="m-2" *ngIf="business != null" [nzLoading]="loading">
+            <div class="item"><span>Company Name: </span> {{business.businessName}}<br></div>
+            <div class="item"><span>Location: </span> {{business.location}}<br></div>
+            <div class="item"><span>Business Type: </span> {{business.businessType}}<br></div>
+            <div class="item"><span>Business SubSector: </span> {{business.businessSubsector}}<br></div>
+            <div class="item"><span>Phone: </span> {{business.businessPhoneNumber}}<br></div>
+            <div class="item"><span>Email: </span> {{business.businessEmail}}<br></div>
+            <div class="item"><span>Status: </span>
+                <nz-tag *ngIf="business.approvalStatus == 'APPROVED'" nzColor="success" nzShape="round">APPROVED</nz-tag>
+                <nz-tag *ngIf="business.approvalStatus == 'PENDING'" nzColor="gold" nzShape="round">PENDING</nz-tag>
+                <nz-tag *ngIf="business.approvalStatus == 'DECLINED'" nzColor="error" nzShape="round">DECLINED</nz-tag>
+                <br>
+            </div>
+            <div class="item"><span>Capacity: </span> {{business.businessCapacity}}<br></div>
+            <div class="item"><span>Created On: </span> {{business.createdOn}}<br></div>
+        </nz-card>
+    </div>
+    <div nz-col nzSpan="12" fxLayout="col" fxLayoutAlign="center" class="mt-2 pa-1" >
+        <nz-card style="width:100%;" nzTitle="Business Documents" class="m-2" *ngIf="business != null" [nzLoading]="loading">
+            <div class="item"><span>KRA Pin: </span> {{business.kraPin}}<br></div>
+            <div class="item"><span>Vat Certificate: </span>
+              <span *ngIf="business.vatForm != ''">
+                <a (click)="open(content, business.vatForm)">view</a>
+              </span> 
+              <span *ngIf="business.vatForm === ''">
+                No document
+              </span> 
+              <br>
+            </div>
+            <div class="item"><span>KRA Certificate </span> 
+              <span *ngIf="business.kraCertificate != ''">
+                <a (click)="open(content, business.kraCertificate)">view</a>
+              </span>  
+              <span *ngIf="business.kraCertificate === ''">
+                No document
+              </span> 
+              <br>
+            </div>
+            <div class="item"><span>Registration Certificate: </span> 
+              <span *ngIf="business.certificateOfRegistration != ''">
+                <a (click)="open(content, business.certificateOfRegistration)">view</a>
+              </span> 
+              <span *ngIf="business.certificateOfRegistration === ''">
+                No document
+              </span> 
+                <br>
+            </div>
+            
+        </nz-card>
+    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" class="ma-2">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <nz-card nzSize="large" nzTitle="Business Users" *ngIf="users != null" [nzExtra]="extraTemplate">
+          <nz-table #basicTable [nzData]="users" ngSize="small" [nzBordered]="false" [nzFrontPagination]="false" [nzLoading]="loading" nzShowSizeChanger [nzTotal]="total" [nzPageSize]="perPage" [nzPageIndex]="page" nzShowSizeChanger (nzQueryParams)="onQueryParamsChange($event)">
+            <thead>
+              <tr>
+                <th>FirstName</th>
+                <th>FirstName</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>User Profile</th>
+                <th>CreatedOn</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data">
+                <td >{{data.firstName | titlecase}}</td>
+                <td>{{data.lastName}}</td>
+                <td>{{data.phoneNumber}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.userProfile}}</td>
+                <td>{{data.createdOn}}</td>
+                
+                <td>
+                    <button nz-button nzType="primary" nzSize="small" nzGhost 
+                    [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon>&nbsp;
+                    Actions
+                    </button>
+                    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                        <button mat-menu-item (click)="viewProfile(data)">
+                            <mat-icon>remove_red_eye</mat-icon>View
+                        </button>
+                        <!-- <button mat-menu-item (click)="editProfileDetails(data)">
+                          <mat-icon>edit</mat-icon>Edit
+                      </button> -->
+                    </mat-menu>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <!-- <button nz-button nzType="primary" (click)="createProfile('')"><mat-icon>assignment_ind</mat-icon>&nbsp;Add Profile</button>&nbsp; -->
+          <!-- <button nz-button nzType="primary" [matMenuTriggerFor]="menu"><mat-icon> import_export</mat-icon>&nbsp;Export Data</button> -->
+          <mat-menu #menu="matMenu" [overlapTrigger]="false">
+              <!-- <button mat-menu-item>
+                  <mat-icon>file_copy</mat-icon>CSV
+              </button> -->
+              <button (click)="exportXLSX()" mat-menu-item>
+                  <mat-icon>file_copy</mat-icon>
+                  XLSX
+              </button>
+              <button (click)="exportProfilesPDF()" mat-menu-item>
+                  <mat-icon>picture_as_pdf</mat-icon>
+                  PDF
+              </button>
+          </mat-menu>
+        </ng-template>
+    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" class="ma-2" *ngIf="!loading">
+    <h2>Questionnaire  Responses</h2>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" class="ma-2" *ngIf="responses != null">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <nz-card nzSize="large" nzTitle="" [nzExtra]="temp">
+            <nz-collapse>
+                <nz-collapse-panel
+                  *ngFor="let panel of responses"
+                  [nzHeader]="panel.question"
+                  [nzDisabled]="panel.disabled"
+                >
+                  <p style="margin:0;">
+                    {{ panel.answers}}
+                  </p>
+                </nz-collapse-panel>
+              </nz-collapse>
+        </nz-card>
+        <ng-template #temp>
+          <!-- <button nz-button nzType="primary" (click)="createProfile('')"><mat-icon>assignment_ind</mat-icon>&nbsp;Add Profile</button>&nbsp; -->
+          <button *ngIf="business.approvalStatus == 'APPROVED'" [loading]="btnLoading" (click)="viewApproval = true" nz-button nzType="primary" nzDanger nzSize="large"><mat-icon>down</mat-icon>&nbsp;Deactivate Business</button>
+          <button *ngIf="business.approvalStatus == 'DECLINED' || business.approvalStatus == 'PENDING'"
+             [loading]="btnLoading"  (click)="viewApproval = true" 
+             nz-button nzType="primary" nzSize="large"
+             ><mat-icon>down</mat-icon>&nbsp;Approve Business</button>
+        </ng-template>
+    </div>
+</div>
+
+<!-- view pdf -->
+<nz-modal [(nzVisible)]="isVisible"  (nzOnCancel)="handleCancel()" nzWidth="80%" >
+  <ng-container *nzModalContent>
+    <div class="mt-4 pt-5">
+      <ngx-extended-pdf-viewer
+      [base64Src]="docBase64"
+      backgroundColor="#ffffff"
+      [height]="'90vh'"
+      [useBrowserLocale]="true"
+      [handTool]="false"
+      [showHandToolButton]="true"
+    >
+    </ngx-extended-pdf-viewer>
+    </div>
+  </ng-container>
+</nz-modal>
+<!-- end of pdf -->
+
+<!-- start approval -->
+<nz-modal [(nzVisible)]="viewApproval" [nzCentered]="true" (nzOnOk)="handleViewOk()"
+ (nzOnCancel)="handleViewCancel()" nzWidth="40%" [nzOkDisabled]="!approveForm.valid" nzTitle="Change Business Status"
+ nzOkText="Update Status">
+  <ng-container *nzModalContent>
+    <div class="mt-4 pt-5 ma-2">
+      <form nz-form [formGroup]="approveForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-select  width="100%" [nzSize]="'large'" formControlName="status" [nzPlaceHolder]="'Choose Action'" class="ma-1">
+          <nz-option nzValue="APPROVED" nzLabel="Approve"></nz-option>
+          <nz-option nzValue="DECLINED" nzLabel="Decline"></nz-option>
+        </nz-select> 
+        <nz-form-item class="ma-1">
+          <nz-form-control nzErrorTip="Required!">
+            <nz-input-group >
+              <textarea type="text" nz-input formControlName="remarks" placeholder="Remarks" ></textarea>
+            </nz-input-group> 
+          </nz-form-control>
+        </nz-form-item>  
+      </form>
+    </div>
+  </ng-container>
+</nz-modal>
+<!-- end approval -->
+
